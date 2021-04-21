@@ -80,11 +80,7 @@ public class Conexao{
             connection = abreConeccao();
             stmt = connection.createStatement();
             
-            stmt.executeQuery("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);
-            while(data.next()) {
-                System.out.println(data.getString("nome"));
-            }
-            
+            stmt.execute("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);            
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -104,5 +100,21 @@ public class Conexao{
         } finally {
             fechaConeccao(connection, stmt, data);
         }
+    }
+    
+    public static void delete(String tabela, String chave, Boolean produto) {
+        if (produto) {
+           try {
+                connection = abreConeccao();
+                stmt = connection.createStatement();
+                stmt.execute("DELETE FROM " + tabela + " WHERE " + tabela + ".codigo_de_barras = " + chave);
+                stmt.execute("DELETE FROM produto WHERE codigo_de_barras = " + chave);
+            } catch (SQLException ex) {
+                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+            } finally {
+                fechaConeccao(connection, stmt, data);
+            } 
+        }
+        else delete(tabela, chave);
     }
 }
