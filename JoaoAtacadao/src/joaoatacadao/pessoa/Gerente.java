@@ -12,7 +12,7 @@ public class Gerente extends Funcionario {
     }
 
     public static Gerente instanciaGerente(String[] dados) {
-        return new Gerente(dados[1], dados[2], Long.parseLong(dados[0]), Float.parseFloat(dados[3]), dados[4]);
+        return new Gerente(dados[1], dados[2], Long.parseLong(dados[0]), Float.parseFloat(dados[3]), dados[5]);
     }
     
     public boolean isSenha (String senha) {

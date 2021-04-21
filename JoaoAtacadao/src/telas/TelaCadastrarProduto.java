@@ -367,6 +367,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
         temp_produto += ", '" + jTextField1.getText() + "'";
         temp_produto += ", "  + jTextField3.getText();
         temp_produto += ", '" + jTextField4.getText() + "'";
+        temp_produto += ", '" + menu + "'";
 
         switch(menu)
         {

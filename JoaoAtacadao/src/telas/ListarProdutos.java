@@ -67,8 +67,8 @@ public class ListarProdutos extends javax.swing.JFrame {
     }
     
     public void updateArquivo () {
-        arquivo = Normalizer.normalize(((String) cmbDepartamentos.getSelectedItem()), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-        System.out.println(arquivo);
+        arquivo = Normalizer.normalize(((String) cmbDepartamentos
+                .getSelectedItem()), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
     }
     
     public void updateArquivo (String codigo){
@@ -323,25 +323,26 @@ public class ListarProdutos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+    private ArrayList getDados() {
+        if (arquivo.equals("Todos"))
+            return Conexao.select("produto", pagina);
+        else 
+            return Conexao.select("view_" + arquivo, pagina);
+    }
+    
     private void btnPesquisarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarTodosActionPerformed
         updateArquivo();
         pagina = 0;
-        if (arquivo.equals("Todos"))
-            produtos = Conexao.select(pagina);
-        else 
-            produtos = Conexao.select(arquivo, pagina);
+        produtos = getDados();
         
         if (produtos != null)
             criaTabela(produtos);
     }//GEN-LAST:event_btnPesquisarTodosActionPerformed
-
+    
     private void btnDireitaActionPerformed(java.awt.event.ActionEvent evt) {                                         
         ArrayList lista = null;
         pagina += 1;
-        if (arquivo.equals("Todos"))
-            lista = Conexao.select(pagina);
-        else 
-            lista = Conexao.select(arquivo, pagina);
+        lista = getDados();
         if (!lista.isEmpty()) {
             produtos = lista;
             criaTabela(lista);
@@ -355,10 +356,7 @@ public class ListarProdutos extends javax.swing.JFrame {
         if (pagina <= 0)
             return;
         pagina -= 1;
-        if (arquivo.equals("Todos"))
-            lista = Conexao.select(pagina);
-        else 
-            lista = Conexao.select(arquivo, pagina);
+        lista = getDados();
         
         if (!lista.isEmpty()) {
             produtos = lista;
@@ -393,13 +391,9 @@ public class ListarProdutos extends javax.swing.JFrame {
             return;
         }
         String[] dados = null;
-        try {
-            dados = BancoDeDados.pesquisa("dados/cadastrarFuncionario.txt", cpf);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Caixa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dados = Conexao.select("*", "funcionario", "cpf = " + cpf);
         
-        if (dados == null || dados.length != 5) {
+        if (dados == null || dados[4].equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -411,23 +405,15 @@ public class ListarProdutos extends javax.swing.JFrame {
         if (senha == null || !gerente.isSenha(senha)) {
             JOptionPane.showMessageDialog(null, "Senha incorreta!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
-        }
+        }        
         
         int index = tblProdutos.getSelectedRow();
         if (index < 0)
             return;
         if(produtos == null)
             return;
-        try {
-            BancoDeDados.remover(arquivo, produtos.get(index)[0]);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        try {
-            produtos = BancoDeDados.leitura(arquivo, pagina);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        Conexao.delete(produtos.get(index)[4], produtos.get(index)[0], true);
+        produtos = getDados();
         if (produtos != null)
             criaTabela(produtos);
     }//GEN-LAST:event_btnExcluirActionPerformed
