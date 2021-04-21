@@ -242,13 +242,17 @@ public class CadastrarCliente extends javax.swing.JFrame {
             temp += ", '" + senha + "'";
             temp += ", " + txtLimiteCartao.getText();
             
-            Conexao.create("cliente", temp);
-            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            txtCpf.setText("");
-            txtNome.setText("");
-            txtDataNascimento.setText("");
-            txtLimiteCartao.setText("");
-            pswSenhaCartao.setText("");
+            if (Conexao.create("cliente", temp)) {
+                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                txtCpf.setText("");
+                txtNome.setText("");
+                txtDataNascimento.setText("");
+                txtLimiteCartao.setText("");
+                pswSenhaCartao.setText("");
+            }
+            
+            else
+                JOptionPane.showMessageDialog(null, "Falha ao cadastrar cliente", "Erro", JOptionPane.INFORMATION_MESSAGE);           
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

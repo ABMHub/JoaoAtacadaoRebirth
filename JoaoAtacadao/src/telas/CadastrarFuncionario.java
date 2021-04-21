@@ -254,13 +254,17 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             else 
                 temp += ", false, null";
             
-            Conexao.create("funcionario", temp);
-            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            txtCpf.setText("");
-            txtNome.setText("");
-            txtDataNascimento.setText("");
-            txtSalario.setText("");
-            pswSenhaGerente.setText("");
+            if (Conexao.create("funcionario", temp)) {
+                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                txtCpf.setText("");
+                txtNome.setText("");
+                txtDataNascimento.setText("");
+                txtSalario.setText("");
+                pswSenhaGerente.setText("");
+            }
+            
+            else
+                JOptionPane.showMessageDialog(null, "Falha ao cadastrar funcionario", "Erro", JOptionPane.INFORMATION_MESSAGE);            
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

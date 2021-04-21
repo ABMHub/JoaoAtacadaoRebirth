@@ -473,10 +473,12 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
         else{
             if(!erro)
             {
-                Conexao.create(menu, temp_produto, temp);
-                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                
-                this.setVisible(false);
+                if (Conexao.create(menu, temp_produto, temp)) {
+                    JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    this.setVisible(false);
+                }
+                else
+                    JOptionPane.showMessageDialog(null, "Falha ao cadastrar produto", "Erro", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
