@@ -14,8 +14,6 @@ public class JoaoAtacadao {
         Path path = Paths.get("dados/");
         Files.createDirectories(path);
         
-        Conexao.consulta();
-        
         //new Principal().setVisible(true);
     }
     
