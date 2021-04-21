@@ -3,6 +3,7 @@
  */
 package telas;
 
+import camadaDePersistencia.Conexao;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -235,27 +236,21 @@ public class CadastrarCliente extends javax.swing.JFrame {
         {
             String temp = "";
             
-            temp += "CPF:" + txtCpf.getText();
-            temp += ",\nNome:" + txtNome.getText();
-            temp += ",\nData de nascimento:" + txtDataNascimento.getText();
-            temp += ",\nSenha:" + senha;
-            temp += ",\nSaldo:" + txtLimiteCartao.getText() + ";\n\n";
+            temp += "'" + txtCpf.getText() + "'";
+            temp += ", '" + txtNome.getText() + "'";
+            temp += ", '" + txtDataNascimento.getText() + "'";
+            temp += ", '" + senha + "'";
+            temp += ", " + txtLimiteCartao.getText();
 
-            try
-            {
-                escritor("dados/" + "cadastrarCliente.txt", temp);
-                JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                txtCpf.setText("");
-                txtNome.setText("");
-                txtDataNascimento.setText("");
-                txtLimiteCartao.setText("");
-                pswSenhaCartao.setText("");
+            System.out.println(temp);
             
-            }catch (IOException ex) 
-            {
-                Logger.getLogger(TelaCadastrarProduto.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Conexao.create("cliente", temp);
+            JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            txtCpf.setText("");
+            txtNome.setText("");
+            txtDataNascimento.setText("");
+            txtLimiteCartao.setText("");
+            pswSenhaCartao.setText("");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

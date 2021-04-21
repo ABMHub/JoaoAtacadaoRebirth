@@ -32,10 +32,10 @@ public class Conexao{
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            stmt.execute("INSERT INTO " + tabela + " VALUES " + valores);
-        } catch (SQLException e)
+            stmt.execute("INSERT INTO " + tabela + " VALUES ( " + valores + ")");
+        } catch (SQLException ex)
         {
-            System.out.println("Entrada duplicada!");
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             fechaConeccao(connection, stmt, data);
         }
