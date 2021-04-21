@@ -5,7 +5,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conexao{
-    private static String connectionString = "jdbc:mysql://localhost:3306/detran2";
+    private static String connectionString = "jdbc:mysql://localhost:3306/joaoatacado";
     private static Connection connection;
     private static Statement stmt;
     private static ResultSet data;
