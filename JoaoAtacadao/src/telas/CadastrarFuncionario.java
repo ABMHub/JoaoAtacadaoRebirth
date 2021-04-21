@@ -3,6 +3,7 @@
  */
 package telas;
 
+import camadaDePersistencia.Conexao;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -243,33 +244,23 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         {
             String temp = "";
             
-            temp += "CPF:" + txtCpf.getText();
-            temp += ",\nNome:" + txtNome.getText();
-            temp += ",\nData de nascimento:" + txtDataNascimento.getText();
-            temp += ",\nSalário: " + txtSalario.getText();
-            
-            
+            temp += "'" + txtCpf.getText() + "'";
+            temp += ", '" + txtNome.getText() + "'";
+            temp += ", '" + txtDataNascimento.getText() + "'";
+            temp += ", " + txtSalario.getText();
             
             if(rdbSim.isSelected())
-                temp += ",\nSenha:" + senha;
+                temp += ", true, '" + senha + "'";
+            else 
+                temp += ", false, null";
             
-            temp += ";\n\n";
-
-            try
-            {
-                escritor("dados/" + "cadastrarFuncionario.txt", temp);
-                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                txtCpf.setText("");
-                txtNome.setText("");
-                txtDataNascimento.setText("");
-                pswSenhaGerente.setText("");
-                    
-            }catch (IOException ex) 
-            {
-                System.out.println("a");
-                Logger.getLogger(TelaCadastrarProduto.class.getName()).log(Level.SEVERE, null, ex);
-            }
+            Conexao.create("funcionario", temp);
+            JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+            txtCpf.setText("");
+            txtNome.setText("");
+            txtDataNascimento.setText("");
+            txtSalario.setText("");
+            pswSenhaGerente.setText("");
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 

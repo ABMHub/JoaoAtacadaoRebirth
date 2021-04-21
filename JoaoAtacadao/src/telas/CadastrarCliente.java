@@ -241,8 +241,6 @@ public class CadastrarCliente extends javax.swing.JFrame {
             temp += ", '" + txtDataNascimento.getText() + "'";
             temp += ", '" + senha + "'";
             temp += ", " + txtLimiteCartao.getText();
-
-            System.out.println(temp);
             
             Conexao.create("cliente", temp);
             JOptionPane.showMessageDialog(null, "Cliente cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
