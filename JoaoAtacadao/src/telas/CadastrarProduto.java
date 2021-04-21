@@ -190,27 +190,27 @@ public class CadastrarProduto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void bttLivrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttLivrosActionPerformed
-        new TelaCadastrarProduto("livros").setVisible(true);
+        new TelaCadastrarProduto("livro").setVisible(true);
     }//GEN-LAST:event_bttLivrosActionPerformed
 
     private void bttFilmesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttFilmesActionPerformed
-        new TelaCadastrarProduto("filmes").setVisible(true);
+        new TelaCadastrarProduto("filme").setVisible(true);
     }//GEN-LAST:event_bttFilmesActionPerformed
 
     private void bttPerifericosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttPerifericosActionPerformed
-        new TelaCadastrarProduto("perifericos").setVisible(true);
+        new TelaCadastrarProduto("periferico").setVisible(true);
     }//GEN-LAST:event_bttPerifericosActionPerformed
 
     private void bttCelularesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttCelularesActionPerformed
-        new TelaCadastrarProduto("celulares").setVisible(true);
+        new TelaCadastrarProduto("celular").setVisible(true);
     }//GEN-LAST:event_bttCelularesActionPerformed
 
     private void bttComputadoresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttComputadoresActionPerformed
-        new TelaCadastrarProduto("computadores").setVisible(true);
+        new TelaCadastrarProduto("computador").setVisible(true);
     }//GEN-LAST:event_bttComputadoresActionPerformed
 
     private void bttEletroeletronicosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttEletroeletronicosActionPerformed
-        new TelaCadastrarProduto("eletroeletronicos").setVisible(true);
+        new TelaCadastrarProduto("eletroeletronico").setVisible(true);
     }//GEN-LAST:event_bttEletroeletronicosActionPerformed
 
     private void bttVestuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bttVestuarioActionPerformed

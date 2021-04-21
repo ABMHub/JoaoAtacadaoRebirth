@@ -9,6 +9,7 @@ de barras de um livro por exemplo necessariamente precisa começar com G.
 */
 package telas;
 
+import camadaDePersistencia.Conexao;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -31,7 +32,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
         this.menu = menu;
         
         switch(menu){
-            case "livros":
+            case "livro":
                 jLabel5.setText("Faixa Etária:");
                 jLabel6.setText("Tema:");
                 jLabel7.setText("Autor:");
@@ -44,7 +45,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                 
             break;
                 
-            case "filmes":
+            case "filme":
                 jLabel5.setText("Faixa Etária:");
                 jLabel6.setText("Tema:");
                 jLabel7.setText("Diretor:");
@@ -59,7 +60,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                 
             break;
                 
-            case "perifericos":
+            case "periferico":
                 jLabel5.setText("Cor:");
                 jLabel6.setText("Modelo:");
                 jLabel7.setText("Tipo:");
@@ -74,7 +75,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                 
             break;
                 
-            case "celulares":
+            case "celular":
                 jLabel5.setText("Cor:");
                 jLabel6.setText("Modelo:");
                 jLabel7.setText("Tamanho da tela:");
@@ -87,7 +88,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                 
             break;
                 
-            case "computadores":
+            case "computador":
                 jLabel5.setText("Cor:");
                 jLabel6.setText("Modelo:");
                 jLabel7.setText("Processador:");
@@ -100,7 +101,7 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                 
             break;
                 
-            case "eletroeletronicos":
+            case "eletroeletronico":
                 jLabel5.setText("Consumo de Energia:");
                 jLabel6.setText("Potência:");
                 jLabel7.setText("");
@@ -353,27 +354,29 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
     //pelo usuário sejam de fato números (inteiros ou reais de acordo com a situação) e sempre positivos.
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String temp = "";
+        String temp_produto = "";
         boolean erro = false;
         if(!ehFlutuante(jTextField3.getText()))
         {
             JOptionPane.showMessageDialog(null, "O preço deve ser um número real!", "Aviso", JOptionPane.WARNING_MESSAGE);
             erro = true;
         }
-        temp  = "Código:" + jTextField2.getText();
-        temp += ",\nNome:" + jTextField1.getText();        
-        temp += ",\nValor:" + jTextField3.getText();
-        temp += ",\nMarca:" + jTextField4.getText();
+        temp = "'" + jTextField2.getText() + "'";               // codigo de barras
+        
+        temp_produto  = "'"   + jTextField2.getText() + "'";    // codigo de barras
+        temp_produto += ", '" + jTextField1.getText() + "'";
+        temp_produto += ", "  + jTextField3.getText();
+        temp_produto += ", '" + jTextField4.getText() + "'";
 
         switch(menu)
         {
-            case "livros":  
-               
-                temp += ",\nFaixa Etária:" + jTextField5.getText();
-                temp += ",\nTema:" + jTextField6.getText();
-                
-                temp +=  ",\nAutor:" + jTextField7.getText();
-                temp += ",\nEditora:" + jTextField8.getText();
-                temp += ",\nQuantidade de Páginas:" + jTextField9.getText();
+            case "livro":  
+                temp += ", '" + jTextField7.getText()  + "'";   // autor
+                temp += ", "  + jTextField9.getText();          // qtd_paginas
+                temp += ", '" + jTextField8.getText()  + "'";   // editora
+                temp += ", '" + jTextField10.getText() + "'";   // ISBN
+                temp += ", '" + jTextField5.getText()  + "'";   // faixa_etaria
+                temp += ", '" + jTextField6.getText()  + "'";   // tema
                 
                 if(!ehInteiro(jTextField9.getText()))
                 {
@@ -381,18 +384,13 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
                     erro = true;
                 }
                 
-                    
-                temp += ",\nISBN:" + jTextField10.getText() + ";\n\n";
-
             break;
             
-            case "filmes":
-                
-                temp += ",\nFaixa Etária:" + jTextField5.getText();
-                temp += ",\nTema:" + jTextField6.getText();
-                
-                temp +=  "\nDiretor:" + jTextField7.getText();
-                temp += ",\nDuração:" + jTextField8.getText() + ";\n\n";
+            case "filme":
+                temp += ", '" + jTextField7.getText() + "'";    // diretor
+                temp += ", "  + jTextField8.getText();          // duracao
+                temp += ", '" + jTextField5.getText() + "'";    // faixa etaria
+                temp += ", '" + jTextField6.getText() + "'";    // tema
                 
                 if(!ehInteiro(jTextField8.getText()))
                 {
@@ -402,86 +400,84 @@ public class TelaCadastrarProduto extends javax.swing.JFrame {
 
             break;
             
-            case "perifericos":
-                temp += ",\nCor:" + jTextField5.getText();
-                temp += ",\nModelo:" + jTextField6.getText();
-                
-                temp += ",\nTipo:" + jTextField7.getText();
-                temp += ",\nPadrão de Entrada:" + jTextField8.getText() + ";\n\n";
-
+            case "periferico":
+                temp += ", '" + jTextField7.getText() + "'";    // tipo
+                temp += ", '" + jTextField8.getText() + "'";    // padrao de entrada
+                temp += ", '" + jTextField5.getText() + "'";    // cor
+                temp += ", '" + jTextField6.getText() + "'";    // modelo
+        
             break;
                 
-            case "celulares":
+            case "celular":
+                temp += ", '" + jTextField9.getText()  + "'";   // processador
+                temp += ", '" + jTextField7.getText()  + "'";   // tamanho
+                temp += ", '" + jTextField8.getText()  + "'";   // memoria
+                temp += ", '" + jTextField10.getText() + "'";   // camera
+                temp += ", '" + jTextField5.getText()  + "'";   // cor
+                temp += ", '" + jTextField6.getText()  + "'";   /// modelo
                 
-                temp += ",\nCor:" + jTextField5.getText();
-                temp += ",\nModelo:" + jTextField6.getText();
                 
-                temp += ",\nTamanho da Tela:" + jTextField7.getText();
-                temp += ",\nMemória:" + jTextField8.getText();
-                temp += ",\nProcessador:" + jTextField9.getText();
-                temp += ",\nCâmera:" + jTextField10.getText() + ";\n\n";
-            break;
-            
-            case "computadores":
-                temp += ",\nCor:" + jTextField5.getText();
-                temp += ",\nModelo:" + jTextField6.getText();
-                
-                temp += ",\nProcessador:" + jTextField7.getText();
-                temp += ",\nGPU:" + jTextField8.getText();
-                temp += ",\nMemória:" + jTextField9.getText();
-                temp += ",\nFonte:" + jTextField10.getText();
-                if(rdbSim.isSelected())
-                    temp += ",\nRGB:" + "true" + ";\n\n";
-                else
-                    temp += ",\nRGB:" + "false" + ";\n\n";
             break;
             
-            case "eletroeletronicos":
+            case "computador":
+                temp += ", '" + jTextField7.getText() + "'";    // processador
+                temp += ", '" + jTextField8.getText() + "'";    // gpu
                 
-                temp += ",\nConsumo de Energia:" + jTextField5.getText();
-                temp += ",\nPotência:" + jTextField6.getText();
+                // rgb
                 if(rdbSim.isSelected())
-                    temp += ",\nSmart:" + "true" + ";\n\n";
+                    temp += ", true";
                 else
-                    temp += ",\nSmart:" + "false" + ";\n\n";
+                    temp += ", false";
+                
+                temp += ", '" + jTextField9.getText()  + "'";   // memoria
+                temp += ", '" + jTextField10.getText() + "'";   // fonte
+                temp += ", '" + jTextField5.getText()  + "'";   // cor
+                temp += ", '" + jTextField6.getText()  + "'";   // modelo
+            break;
+            
+            case "eletroeletronico":
+                
+                temp += ", '" + jTextField5.getText() + "'";    // consumo_de_energia
+                temp += ", '" + jTextField6.getText() + "'";    // potencia
+                
+                // smart
+                if(rdbSim.isSelected())
+                    temp += ", true";
+                else
+                    temp += ", false";
             break;
             
             case "vestuario":
-                temp += ",\nTamanho:" + jTextField5.getText();
-                temp += ",\nCor:" + jTextField6.getText();
-                temp += ",\nMaterial:" + jTextField7.getText() + ";\n\n";
+                temp += ", '" + jTextField5.getText() + "'";    // tamanho
+                temp += ", '" + jTextField6.getText() + "'";    // cor
+                temp += ", '" + jTextField7.getText() + "'";    // material
             break;
             
             default:
         }
         
-        try{
-            if(jTextField1.getText().equals("") || jTextField2.getText().equals("") || jTextField3.getText().equals("") || 
-               jTextField4.getText().equals("") || jTextField5.getText().equals("") || jTextField6.getText().equals(""))
-                JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-            
-            else if(!menu.equals("eletroeletronicos") && jTextField7.getText().equals(""))
-                JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-            
-            else if(!menu.equals("eletroeletronicos") && !menu.equals("vestuario") && jTextField7.getText().equals(""))
-                JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-            
-            else if((jTextField9.getText().equals("") || jTextField10.getText().equals("")) && 
-                    (menu.equals("livros") || menu.equals("computadores") || menu.equals("celulares")))
-                JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
-                    
-            else{
-                if(!erro)
-                {
-                    escritor("dados/" + menu + ".txt", temp);
-                    JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-                    this.setVisible(false);
-                }
+        if(jTextField1.getText().equals("") || jTextField2.getText().equals("") || jTextField3.getText().equals("") ||
+                jTextField4.getText().equals("") || jTextField5.getText().equals("") || jTextField6.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else if(!menu.equals("eletroeletronico") && jTextField7.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else if(!menu.equals("eletroeletronico") && !menu.equals("vestuario") && jTextField7.getText().equals(""))
+            JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else if((jTextField9.getText().equals("") || jTextField10.getText().equals("")) &&
+                (menu.equals("livro") || menu.equals("computador") || menu.equals("celular")))
+            JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else{
+            if(!erro)
+            {
+                Conexao.create(menu, temp_produto, temp);
+                JOptionPane.showMessageDialog(null, "Produto cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                
+                this.setVisible(false);
             }
-            
-        }catch (IOException ex) {
-            Logger.getLogger(TelaCadastrarProduto.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
