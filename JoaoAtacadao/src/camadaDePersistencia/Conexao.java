@@ -73,13 +73,18 @@ public class Conexao{
             connection = abreConeccao();
             stmt = connection.createStatement();
             data = stmt.executeQuery("SELECT * FROM " + tabela);                          //resgata a saída do select
-       
+            String[] resultados = null;
+            
             for(int i = 1; data.next() && i <= (pag*10 + 10); i++)
             {
                 if(i > pag*10)
                 {
-                    String[] resultados = new String[5];
-                    for(int j = 1; j <= 5; j++)
+                    ResultSetMetaData metadata = data.getMetaData();                            //resgata os metadados do resultado obtido
+                    int num_colunas = metadata.getColumnCount(); 
+
+                    resultados = new String[num_colunas];
+                    
+                    for(int j = 1; j <= num_colunas; j++)
                     {
                         resultados[j-1] = data.getString(j);
                     }
@@ -97,6 +102,42 @@ public class Conexao{
         return lista;
     }
     
+    public static ArrayList<String[]> select(String tabela, String condicional, int pag)
+    {
+        ArrayList<String[]> lista = new ArrayList();
+       
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            data = stmt.executeQuery("SELECT * FROM " + tabela + " WHERE " + condicional);                 
+            String[] resultados = null;
+            
+            for(int i = 1; data.next() && i <= (pag*10 + 10); i++)
+            {
+                if(i > pag*10)
+                {
+                    ResultSetMetaData metadata = data.getMetaData();                            //resgata os metadados do resultado obtido
+                    int num_colunas = metadata.getColumnCount(); 
+
+                    resultados = new String[num_colunas];
+
+                    for(int j = 1; j <= num_colunas; j++)
+                    {
+                        resultados[j-1] = data.getString(j);
+                    }
+                    lista.add(resultados);
+                }
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+        return lista;
+    }
     
     public static String[] select(String colunas, String tabela, String condicional) {
         String resultados[] = null;
