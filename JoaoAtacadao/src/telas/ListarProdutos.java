@@ -5,6 +5,7 @@
  */
 package telas;
 
+import camadaDePersistencia.Conexao;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.text.Normalizer;
@@ -25,7 +26,7 @@ import joaoatacadao.pessoa.Gerente;
 public class ListarProdutos extends javax.swing.JFrame {
 
     private int pagina = 0;
-    private String arquivo = new String("dados/celulares.txt");
+    private String arquivo = new String("Todos");
     ArrayList<String[]> produtos;
     
     public ListarProdutos() {
@@ -54,22 +55,20 @@ public class ListarProdutos extends javax.swing.JFrame {
     public void carregaDepartamentos () {
         cmbDepartamentos.removeAllItems();
         
-        cmbDepartamentos.addItem("Selecione um Departamento");
-        cmbDepartamentos.addItem("Livros");
-        cmbDepartamentos.addItem("Filmes");
-        cmbDepartamentos.addItem("Periféricos");
-        cmbDepartamentos.addItem("Celulares");
-        cmbDepartamentos.addItem("Computadores");
-        cmbDepartamentos.addItem("Eletroeletrônicos");
+        cmbDepartamentos.addItem("Todos");
+        cmbDepartamentos.addItem("Livro");
+        cmbDepartamentos.addItem("Filme");
+        cmbDepartamentos.addItem("Periférico");
+        cmbDepartamentos.addItem("Celular");
+        cmbDepartamentos.addItem("Computador");
+        cmbDepartamentos.addItem("Eletroeletrônico");
         cmbDepartamentos.addItem("Vestuário");
         
     }
     
     public void updateArquivo () {
-        if (cmbDepartamentos.getSelectedIndex() == 0) return;
-        arquivo = "dados/" +  Normalizer.normalize(((String) cmbDepartamentos.getSelectedItem())
-                .toLowerCase(), Normalizer.Form.NFD)
-                .replaceAll("[^\\p{ASCII}]", "") + ".txt";
+        arquivo = Normalizer.normalize(((String) cmbDepartamentos.getSelectedItem()), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
+        System.out.println(arquivo);
     }
     
     public void updateArquivo (String codigo){
@@ -327,11 +326,10 @@ public class ListarProdutos extends javax.swing.JFrame {
     private void btnPesquisarTodosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarTodosActionPerformed
         updateArquivo();
         pagina = 0;
-        try {
-            produtos = BancoDeDados.leitura(arquivo, pagina);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        if (arquivo.equals("Todos"))
+            produtos = Conexao.select(pagina);
+        else 
+            produtos = Conexao.select(arquivo, pagina);
         
         if (produtos != null)
             criaTabela(produtos);
@@ -340,12 +338,11 @@ public class ListarProdutos extends javax.swing.JFrame {
     private void btnDireitaActionPerformed(java.awt.event.ActionEvent evt) {                                         
         ArrayList lista = null;
         pagina += 1;
-        try {
-            lista = BancoDeDados.leitura(arquivo, pagina);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (lista != null) {
+        if (arquivo.equals("Todos"))
+            lista = Conexao.select(pagina);
+        else 
+            lista = Conexao.select(arquivo, pagina);
+        if (!lista.isEmpty()) {
             produtos = lista;
             criaTabela(lista);
         }
@@ -358,12 +355,12 @@ public class ListarProdutos extends javax.swing.JFrame {
         if (pagina <= 0)
             return;
         pagina -= 1;
-        try {
-            lista = BancoDeDados.leitura(arquivo, pagina);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        if (lista != null) {
+        if (arquivo.equals("Todos"))
+            lista = Conexao.select(pagina);
+        else 
+            lista = Conexao.select(arquivo, pagina);
+        
+        if (!lista.isEmpty()) {
             produtos = lista;
             criaTabela(lista);
         }

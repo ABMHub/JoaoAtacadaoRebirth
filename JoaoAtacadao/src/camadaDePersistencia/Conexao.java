@@ -65,6 +65,38 @@ public class Conexao{
         return deuCerto;
     }
     
+    public static ArrayList<String[]> select(int pag)
+    {
+        ArrayList<String[]> lista = new ArrayList();
+       
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            data = stmt.executeQuery("SELECT * FROM produto");                          //resgata a saída do select
+       
+            for(int i = 1; data.next() && i <= (pag*10 + 10); i++)
+            {
+                if(i > pag*10)
+                {
+                    String[] resultados = new String[4];
+                    for(int j = 1; j <= 4; j++)
+                    {
+                        resultados[j-1] = data.getString(j);
+                    }
+                    lista.add(resultados);
+                }
+                
+            }
+            
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+        return lista;
+    }
+    
     public static ArrayList<String[]> select(String tabela, int pag)
     {
         ArrayList<String[]> lista = new ArrayList();
@@ -72,7 +104,7 @@ public class Conexao{
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            data = stmt.executeQuery("SELECT * FROM " + tabela);                          //resgata a saída do select
+            data = stmt.executeQuery("SELECT * FROM view_" + tabela);                          //resgata a saída do select
        
             for(int i = 1; data.next() && i <= (pag*10 + 10); i++)
             {
