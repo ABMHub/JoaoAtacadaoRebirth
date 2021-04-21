@@ -33,12 +33,6 @@ public class ListarProdutos extends javax.swing.JFrame {
         initComponents();
         carregaDepartamentos();
         setResizable(false); // maximize button disable
-        
-        try {
-            BancoDeDados.criaArquivos();
-        } catch (IOException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
     }
     
     private String campoDeSenha (String mensagem) {
@@ -69,57 +63,6 @@ public class ListarProdutos extends javax.swing.JFrame {
     public void updateArquivo () {
         arquivo = Normalizer.normalize(((String) cmbDepartamentos
                 .getSelectedItem()), Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "");
-    }
-    
-    public void updateArquivo (String codigo){
-        char escolha = codigo.charAt(0);
-        
-        switch(escolha){
-            //celular
-            case 'a': 
-            case 'A':
-                arquivo = "dados/celulares.txt";
-                break;
-            
-            //computador
-            case 'b': 
-            case 'B':
-                arquivo = "dados/computadores.txt";
-                break;
-                
-            //eletroeletrônicos
-            case 'c': 
-            case 'C':
-                arquivo = "dados/eletroeletronicos.txt";
-                break;
-            
-            //filme
-            case 'd': 
-            case 'D':
-                arquivo = "dados/filmes.txt";
-                break;    
-            
-            //periférico
-            case 'e': 
-            case 'E':
-                arquivo = "dados/perifericos.txt";
-                break;
-                
-            //vestuario
-            case 'f': 
-            case 'F':
-                arquivo = "dados/vestuario.txt";
-                break;    
-                
-            //livro
-            case 'g':
-            case 'G':
-                arquivo = "dados/livros.txt";
-                break;
-                
-            default:
-                break;   //Deu ruim
-        }
     }
     
     private void criaTabela(ArrayList<String[]> produtos) {
@@ -368,20 +311,14 @@ public class ListarProdutos extends javax.swing.JFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         String codigo = txtPesquisar.getText();
-        updateArquivo(codigo);
         String[] lista = null;
-        try {
-            lista = BancoDeDados.pesquisa(arquivo, codigo);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(ListarProdutos.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        lista = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
         
         ArrayList arraylist = new ArrayList<>();
         arraylist.add(lista);
         produtos = arraylist;
         if (lista != null)
-            criaTabela(arraylist);
-            
+            criaTabela(arraylist); 
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
