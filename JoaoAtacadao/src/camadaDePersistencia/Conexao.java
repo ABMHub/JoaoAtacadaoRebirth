@@ -1,8 +1,10 @@
 
 package camadaDePersistencia;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.Arrays;
 
 public class Conexao{
     private static Connection connection;
@@ -57,22 +59,66 @@ public class Conexao{
         }
     }
     
-    
-    public static void consulta(String colunas, String tabela) {
+    public static ArrayList<String[]> select(String tabela, int pag)
+    {
+        ArrayList<String[]> lista = new ArrayList();
+       
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            
-            data = stmt.executeQuery("SELECT nome FROM agente");
-            while(data.next()) {
-                System.out.println(data.getString("nome"));
+            data = stmt.executeQuery("SELECT * FROM " + tabela);                          //resgata a saída do select
+       
+            for(int i = 1; data.next() && i <= (pag*10 + 10); i++)
+            {
+                if(i > pag*10)
+                {
+                    String[] resultados = new String[4];
+                    for(int j = 1; j <= 4; j++)
+                    {
+                        resultados[j-1] = data.getString(j);
+                    }
+                    lista.add(resultados);
+                }
+                
             }
+            
             
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             fechaConeccao(connection, stmt, data);
         }
+        return lista;
+    }
+    
+    
+    public static String[] select(String colunas, String tabela, String cod_de_barras) {
+        String resultados[] = null;
+        
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            data = stmt.executeQuery("SELECT " + colunas + " FROM " + tabela + 
+                                     " WHERE codigo_de_barras = " + cod_de_barras);     //resgata a saída do select
+            
+            data.next();   
+            ResultSetMetaData metadata = data.getMetaData();                            //resgata os metadados do resultado obtido
+            int num_colunas = metadata.getColumnCount(); 
+            
+            resultados = new String[num_colunas];                              //cria um vetor com o número de colunas de elementos
+            
+                                                                                        //acessa o resultado obtido
+            for(int i = 1; i <= num_colunas; i++)
+            {
+                resultados[i-1] = data.getString(i).toString();
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+        
+        return resultados;
     }
     
     public static void update(String tabela, String dados, String chave) {
