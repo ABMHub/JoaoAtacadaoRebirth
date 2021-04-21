@@ -3,9 +3,9 @@ package joaoatacadao.pessoa;
 public abstract class Pessoa {
     protected String nome;
     protected String dataNascimento;
-    protected long cpf;
+    protected String cpf;
     
-    public Pessoa(String nome, String dataNascimento, long cpf){
+    public Pessoa(String nome, String dataNascimento, String cpf){
         this.nome = nome;
         this.dataNascimento = dataNascimento;
         this.cpf = cpf;
@@ -19,7 +19,7 @@ public abstract class Pessoa {
         return dataNascimento;
     }
 
-    public long getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
@@ -31,7 +31,7 @@ public abstract class Pessoa {
         this.dataNascimento = dataNascimento;
     }
 
-    public void setCpf(long cpf) {
+    public void setCpf(String cpf) {
         this.cpf = cpf;
     }
     

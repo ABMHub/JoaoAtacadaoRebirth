@@ -10,7 +10,7 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static joaoatacadao.BancoDeDados.escritor;
-import static joaoatacadao.Validacao.ehInteiro;
+import static joaoatacadao.Validacao.*;
 
 
 /**
@@ -229,8 +229,8 @@ public class CadastrarCliente extends javax.swing.JFrame {
                 || pswSenhaCartao.getPassword().equals("") || senha.equals(""))
             JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
         
-        else if(!ehInteiro(txtCpf.getText()))
-            JOptionPane.showMessageDialog(null, "O CPF deve ser um número inteiro positivo!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        else if(!cpfValido(txtCpf.getText()))
+            JOptionPane.showMessageDialog(null, "Formato de CPF inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
         
         else
         {

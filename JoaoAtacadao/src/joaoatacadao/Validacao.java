@@ -45,4 +45,27 @@ public class Validacao {
         }
         return true;
     }
+    
+    //Método que verifica se o formato do cpf está correto
+    public static boolean cpfValido(String string)
+    {
+        int i;
+        
+        if(string.equals("") || string.charAt(0) == '.' || string.charAt(0) == '-' )
+            return false;
+        
+        for(i = 0; i<string.length(); i++)
+        {
+            if((string.charAt(i) < '0' || string.charAt(i) > '9') && string.charAt(i) != '.' && string.charAt(i) != '-')
+                return false;
+            
+            if(i != 3 && i !=7 && string.charAt(i) == '.')
+                return false;
+            
+            if(i != 11 && string.charAt(i) == '-')
+                return false;  
+        }
+        
+        return i == 14;
+    }
 }
