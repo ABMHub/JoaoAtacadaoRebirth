@@ -5,7 +5,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Conexao{
-    private static String connectionString = "jdbc:mysql://localhost:3306/joaoatacado";
     private static Connection connection;
     private static Statement stmt;
     private static ResultSet data;
@@ -57,13 +56,30 @@ public class Conexao{
         }
     }
     
+    public static void update(String tabela, String dados, String chave) {
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            
+            stmt.executeQuery("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);
+            while(data.next()) {
+                System.out.println(data.getString("nome"));
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+    }
+    
     // Funcao para deletar registro de determinada tabela
     // 'Tabela' eh o nome da tabela, 'chave' eh 'nome da chave = valor da chave'
     public static void delete(String tabela, String chave) {
         try {
-            connection = DriverManager.getConnection(connectionString, "root", "3591");
+            connection = abreConeccao();
             stmt = connection.createStatement();
-            data = stmt.executeQuery("DELETE FROM " + tabela + " WHERE " + chave);
+            stmt.execute("DELETE FROM " + tabela + " WHERE " + chave);
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
