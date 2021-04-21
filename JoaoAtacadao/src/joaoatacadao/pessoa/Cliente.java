@@ -12,7 +12,7 @@ public class Cliente extends Pessoa {
     private double saldoEmConta;
     private String senhaCartaoFidelidade;
 
-    public Cliente(String nome, String dataNascimento, long cpf, 
+    public Cliente(String nome, String dataNascimento, String cpf, 
                    double saldoEmConta, String senhaCartaoFidelidade) {
         super(nome, dataNascimento, cpf);
         this.saldoEmConta = saldoEmConta;
@@ -30,7 +30,7 @@ public class Cliente extends Pessoa {
                     + ",\nSaldo:" + this.saldoEmConta + ";";
                
                 try {
-                    BancoDeDados.editar("dados/cadastrarCliente.txt", Long.toString(this.cpf), dado);
+                    BancoDeDados.editar("dados/cadastrarCliente.txt", this.cpf, dado);
                     JOptionPane.showMessageDialog(null, "Saldo antigo: " + (this.saldoEmConta + total) +
                             "\nValor cobrado: " + total + "\nValor atual: " +
                             this.saldoEmConta, "Aviso", JOptionPane.WARNING_MESSAGE);
@@ -69,7 +69,7 @@ public class Cliente extends Pessoa {
     
     //Um cliente é instanciado para que ele possa efetuar o pagamento 
     public static Cliente instanciarCliente (String[] dados) {
-        return new Cliente(dados[1], dados[2], Long.parseLong(dados[0]), Float.parseFloat(dados[4]), dados[3]);
+        return new Cliente(dados[1], dados[2], dados[0], Float.parseFloat(dados[4]), dados[3]);
     }
     
     public double getSaldoEmConta() {

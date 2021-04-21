@@ -3,13 +3,13 @@ package joaoatacadao.pessoa;
 public class Funcionario extends Pessoa {
     protected double salario;
 
-    public Funcionario(String nome, String dataNascimento, long cpf, double salario) {
+    public Funcionario(String nome, String dataNascimento, String cpf, double salario) {
         super(nome, dataNascimento, cpf);
         this.salario = salario;
     }
     
     public static Funcionario instanciarFuncionario (String[] dados) {
-        return new Funcionario(dados[1], dados[2], Long.parseLong(dados[0]), Float.parseFloat(dados[3]));
+        return new Funcionario(dados[1], dados[2], dados[0], Float.parseFloat(dados[3]));
     }
 
     public double getSalario() {
