@@ -186,8 +186,9 @@ public class Historico extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        pagina = 0;
         ArrayList<String[]> lista = getDados();
-
+        
         if(lista.isEmpty())
         {
             JOptionPane.showMessageDialog(null, "Não foram encontrados resultados para esses filtros!", 
