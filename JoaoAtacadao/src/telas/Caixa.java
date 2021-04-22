@@ -7,17 +7,13 @@
  */
 package telas;
 
-import java.io.FileNotFoundException;
+import camadaDePersistencia.Conexao;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.table.DefaultTableModel;
-import joaoatacadao.BancoDeDados;
-import static joaoatacadao.BancoDeDados.pesquisa;
 import joaoatacadao.Carrinho;
 import joaoatacadao.ItemPedido;
 import joaoatacadao.pessoa.Cliente;
@@ -71,11 +67,7 @@ public class Caixa extends javax.swing.JFrame {
     private void requisitarFuncionario () {
         String cpf = JOptionPane.showInputDialog("Funcionário, insira seu CPF");
         String[] dados = null;
-        try {
-            dados = BancoDeDados.pesquisa("dados/cadastrarFuncionario.txt", cpf);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Caixa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dados = Conexao.select("*", "funcionario", "cpf = '" + cpf + "'");
         
         if (dados == null) {
             JOptionPane.showMessageDialog(null, "Funcionario não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
@@ -90,11 +82,7 @@ public class Caixa extends javax.swing.JFrame {
     private void requisitarCliente () {
         String cpf = JOptionPane.showInputDialog("Cliente, insira seu CPF");
         String[] dados = null;
-        try {
-            dados = BancoDeDados.pesquisa("dados/cadastrarCliente.txt", cpf);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Caixa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dados = Conexao.select("*", "cliente", "cpf = '" + cpf + "'");
         
         if (dados == null) {
             JOptionPane.showMessageDialog(null, "Cliente não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
@@ -353,70 +341,59 @@ public class Caixa extends javax.swing.JFrame {
         String arquivo;
         String [] dados = null;
         ImageIcon img;
-        switch(codigo.charAt(0))
+        
+        dados = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
+        
+        if (dados == null) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        arquivo = dados[4].toLowerCase();
+        dados = Conexao.select("*", "view_" + dados[4], "codigo_de_barras = " + codigo);
+                
+        switch(arquivo)
         {
-            case 'a': 
-            case 'A':
+            case "celular": 
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/celular1.png"));
-                arquivo = "celulares.txt";
                 break;
             
-            case 'b': 
-            case 'B':
+            case "computador":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/computador1.png"));
-                arquivo = "computadores.txt";
                 break;
                 
-            case 'c': 
-            case 'C':
+            case "eletroeletronico":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/eletroeletronicos1.png"));
-                arquivo = "eletroeletronicos.txt";
                 break;
                 
-            case 'd': 
-            case 'D':
+            case "filme":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/filme1.png"));
-                arquivo = "filmes.txt";
                 break;    
             
-            case 'e': 
-            case 'E':
+            case "periferico":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/periferico1.png"));
-                arquivo = "perifericos.txt";
                 break;
             
-            case 'f': 
-            case 'F':
+            case "vestuario":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/vestuario1.png"));
-                arquivo = "vestuario.txt";
                 break;    
                 
-            case 'g':
-            case 'G':
+            case "livro":
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/livro1.png"));
-                arquivo = "livros.txt";
                 break;
                 
             default:
                 img = new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png"));
-                arquivo = "erro.txt";   //Deu ruim
                
-        }
+        }        
         
-        try {
-            dados = pesquisa("dados/" + arquivo, codigo);
-        } catch (FileNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Caixa.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        if(dados != null){
             lblItem.setIcon(img);
-            item = new ItemPedido(dados);
+            item = new ItemPedido(dados, arquivo);
             txtQuantidade.setEditable(true);
             txaDadosProduto.setText((item.getProduto()).toString());
             btnAdicionar.setEnabled(true);
             btnCancelar.setEnabled(true);
-        }else
-            JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+            
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     /*
@@ -469,13 +446,9 @@ public class Caixa extends javax.swing.JFrame {
             return;
         }
         String[] dados = null;
-        try {
-            dados = BancoDeDados.pesquisa("dados/cadastrarFuncionario.txt", cpf);
-        } catch (FileNotFoundException ex) {
-            Logger.getLogger(Caixa.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        dados = Conexao.select("*", "funcionario", "cpf = " + cpf);
         
-        if (dados == null || dados.length != 5) {
+        if (dados == null || dados[4].equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
@@ -487,7 +460,7 @@ public class Caixa extends javax.swing.JFrame {
         if (senha == null || !gerente.isSenha(senha)) {
             JOptionPane.showMessageDialog(null, "Senha incorreta!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
-        }
+        }        
         
         if (tblProdutos.getSelectedRow() >= 0) {
             carrinho.removeProduto(tblProdutos.getSelectedRow());            

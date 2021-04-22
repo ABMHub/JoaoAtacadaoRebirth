@@ -22,6 +22,9 @@ public class Cliente extends Pessoa {
     public boolean pagar (String senha, float total) {
         if (senha == null)
             return false;
+        
+        System.out.println(senha + " =? " + this.getSenhaCartaoFidelidade());
+        
         if (senha.equals(this.getSenhaCartaoFidelidade())) {
             if (this.saldoEmConta >= total) {
                 this.saldoEmConta = (float) this.saldoEmConta - total; 
@@ -69,7 +72,7 @@ public class Cliente extends Pessoa {
     
     //Um cliente é instanciado para que ele possa efetuar o pagamento 
     public static Cliente instanciarCliente (String[] dados) {
-        return new Cliente(dados[1], dados[2], dados[0], Float.parseFloat(dados[4]), dados[3]);
+        return new Cliente(dados[1], dados[2], dados[0], Float.parseFloat(dados[3]), dados[4]);
     }
     
     public double getSaldoEmConta() {
