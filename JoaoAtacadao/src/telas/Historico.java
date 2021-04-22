@@ -72,7 +72,7 @@ public class Historico extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Número da Compra", "Código de Barras", "Nome", "Valor da Unidade", "Qtd. de Itens", "Data", "CPF"
+                "Número da Compra", "Código de Barras", "Nome", "Valor da Unitário", "Qtd. de Itens", "Data", "CPF"
             }
         ));
         jScrollPane1.setViewportView(tblHistorico);

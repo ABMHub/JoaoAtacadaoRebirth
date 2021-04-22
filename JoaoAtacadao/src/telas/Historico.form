@@ -117,7 +117,7 @@
                 <Column editable="true" title="N&#xfa;mero da Compra" type="java.lang.Object"/>
                 <Column editable="true" title="C&#xf3;digo de Barras" type="java.lang.Object"/>
                 <Column editable="true" title="Nome" type="java.lang.Object"/>
-                <Column editable="true" title="Valor da Unidade" type="java.lang.Object"/>
+                <Column editable="true" title="Valor da Unit&#xe1;rio" type="java.lang.Object"/>
                 <Column editable="true" title="Qtd. de Itens" type="java.lang.Object"/>
                 <Column editable="true" title="Data" type="java.lang.Object"/>
                 <Column editable="true" title="CPF" type="java.lang.Object"/>
