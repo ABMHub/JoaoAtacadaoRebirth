@@ -19,9 +19,9 @@ public class JoaoAtacadao {
         //Conexao.create("funcionario", "('cpf1543', 'joao', '2020/09/02', 12, true)");
         //String r[] = Conexao.select("*", "Produto", "3456");
         
-        //for(int i = 1; i < 22; i++)
+        //for(int i = 11; i < 22; i++)
         //{
-        //    Conexao.create("funcionario", "(" + String.valueOf(i) + ", 'joao', '2020/09/02', 12, true)");
+        //    Conexao.create("ItemPedido", String.valueOf(i) + ", 2, 2");
         //}
         
         
