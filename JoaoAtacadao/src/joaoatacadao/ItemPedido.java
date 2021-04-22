@@ -21,58 +21,52 @@ public class ItemPedido {
     private int quantidade;
     Produto produto;
 
-    public ItemPedido(String []dados) {
-        criaProduto(dados);
+    public ItemPedido(String []dados, String categoria) {
+        criaProduto(dados, categoria);
         this.subtotal = Float.parseFloat(dados[2]);
         this.quantidade = 1;
     }
     
-    private void criaProduto (String[] dados) {
-        switch(dados[0].charAt(0))
+    private void criaProduto (String[] dados, String categoria) {
+        switch(categoria.toLowerCase())
         {
             //celular
-            case 'a': 
-            case 'A':
-                produto = new Celular(dados[6], dados[7], dados[8], dados[9], dados[4], dados[5], 
+            case "celular":
+                produto = new Celular(dados[5], dados[6], dados[4], dados[7], dados[8], dados[9], 
                           dados[1], dados[0], Float.parseFloat(dados[2]), dados[3]);
                 break;
             
-            case 'b': 
-            case 'B':
-                produto = new Computador(dados[6], dados[7], dados[8], dados[9], Boolean.parseBoolean(dados[10]), dados[4], 
-                          dados[5], dados[1], dados[0], Float.parseFloat(dados[2]), dados[3]);
+            case "computador":
+                produto = new Computador(dados[4], dados[5], dados[7], dados[8], Boolean.parseBoolean(dados[6]), dados[9], 
+                          dados[10], dados[1], dados[0], Float.parseFloat(dados[2]), dados[3]);
                 break;
                 
-            case 'c': 
-            case 'C':
+            case "eletroeletronico":
                 produto = new Eletroeletronico(dados[4], dados[5], Boolean.parseBoolean(dados[6]), dados[1], dados[0], 
                           Float.parseFloat(dados[2]), dados[3]);
                 break;
                 
-            case 'd': 
-            case 'D':
-                produto = new Filmes(dados[6], Integer.parseInt(dados[7]), dados[4], dados[5], dados[1], dados[0], 
+            case "filme":
+                produto = new Filmes(dados[4], Integer.parseInt(dados[5]), dados[6], dados[7], dados[1], dados[0], 
                         Float.parseFloat(dados[2]), dados[3]);
                 break;    
             
-            case 'e': 
-            case 'E':
-                produto = new Periferico(dados[6], dados[7], dados[4], dados[5], dados[1], dados[0], 
+            case "periferico":
+                produto = new Periferico(dados[4], dados[5], dados[6], dados[7], dados[1], dados[0], 
                 Float.parseFloat(dados[2]), dados[3]);
                 break;
             
-            case 'f': 
-            case 'F':
+            case "vestuario":
                 produto = new Vestuario(dados[4], dados[5], dados[6], dados[1], dados[0], Float.parseFloat(dados[2]), dados[3]);
                 break;    
                 
-            case 'g':
-            case 'G':
-                produto = new Livros(dados[6], dados[7], Integer.parseInt(dados[8]), dados[9], dados[4], dados[5], dados[1], dados[0], 
+            case "livro":
+                produto = new Livros(dados[4], dados[6], Integer.parseInt(dados[5]), dados[7], dados[8], dados[9], dados[1], dados[0], 
                           Float.parseFloat(dados[2]), dados[3]);
                 break;
                 
             default:
+                System.out.println("deu ruim");
                 break;   //Deu ruim
         }
     }
