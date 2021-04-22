@@ -10,8 +10,10 @@ import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static joaoatacadao.BancoDeDados.escritor;
+import static joaoatacadao.Validacao.cpfValido;
 import static joaoatacadao.Validacao.ehFlutuante;
 import static joaoatacadao.Validacao.ehInteiro;
+import static joaoatacadao.Validacao.validaData;
 
 public class CadastrarFuncionario extends javax.swing.JFrame {
 
@@ -230,15 +232,20 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
     */
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String senha = new String(pswSenhaGerente.getPassword()).trim();
+        String dataFormatada = validaData(txtDataNascimento.getText());
         
         if((txtNome.getText().equals("") || txtDataNascimento.getText().equals("") || txtCpf.getText().equals("")) || rdbSim.isSelected() && senha.equals(""))
             JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
 
-        else if(!ehInteiro(txtCpf.getText()))
-            JOptionPane.showMessageDialog(null, "O CPF deve ser um número inteiro positivo!", "Aviso", JOptionPane.WARNING_MESSAGE);
-
         else if(!ehFlutuante(txtSalario.getText()))
             JOptionPane.showMessageDialog(null, "O Salário deve ser um número flutuante!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else if(!cpfValido(txtCpf.getText()))
+            JOptionPane.showMessageDialog(null, "Formato de CPF inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        
+        else if(dataFormatada == null) {
+            JOptionPane.showMessageDialog(null, "Formato de data inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
         
         else
         {
@@ -246,7 +253,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             
             temp += "'" + txtCpf.getText() + "'";
             temp += ", '" + txtNome.getText() + "'";
-            temp += ", '" + txtDataNascimento.getText() + "'";
+            temp += ", '" + dataFormatada + "'";
             temp += ", " + txtSalario.getText();
             
             if(rdbSim.isSelected())

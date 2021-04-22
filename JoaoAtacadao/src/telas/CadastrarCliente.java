@@ -224,6 +224,8 @@ public class CadastrarCliente extends javax.swing.JFrame {
     private void btnSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalvarActionPerformed
         String senha = new String(pswSenhaCartao.getPassword()).trim();
         
+        String dataFormatada = validaData(txtDataNascimento.getText());
+        
         if(txtNome.getText().equals("") || txtDataNascimento.getText().equals("") 
                 || txtCpf.getText().equals("") || txtLimiteCartao.getText().equals("") 
                 || pswSenhaCartao.getPassword().equals("") || senha.equals(""))
@@ -231,14 +233,16 @@ public class CadastrarCliente extends javax.swing.JFrame {
         
         else if(!cpfValido(txtCpf.getText()))
             JOptionPane.showMessageDialog(null, "Formato de CPF inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
-        
+        else if(dataFormatada == null) {
+            JOptionPane.showMessageDialog(null, "Formato de data inválido!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
         else
         {
             String temp = "";
             
             temp += "'" + txtCpf.getText() + "'";
             temp += ", '" + txtNome.getText() + "'";
-            temp += ", '" + txtDataNascimento.getText() + "'";
+            temp += ", '" + dataFormatada + "'";
             temp += ", '" + senha + "'";
             temp += ", " + txtLimiteCartao.getText();
             
@@ -308,4 +312,5 @@ public class CadastrarCliente extends javax.swing.JFrame {
     private javax.swing.JTextField txtLimiteCartao;
     private javax.swing.JTextField txtNome;
     // End of variables declaration//GEN-END:variables
+
 }
