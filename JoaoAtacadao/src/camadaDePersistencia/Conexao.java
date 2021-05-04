@@ -1,5 +1,10 @@
 
 package camadaDePersistencia;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -27,6 +32,29 @@ public class Conexao{
         }
         
         return true;
+    }
+    
+    public static boolean create(String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
+    {
+        boolean deuCerto = true;
+        connection = abreConeccao();
+        connection.setAutoCommit(false);
+        
+        try (FileInputStream fis = new FileInputStream(arquivo);
+            PreparedStatement ps = connection.prepareStatement("UPDATE funcionario SET imagem = (?) WHERE cpf = \"" + chave + "\";")) 
+            {
+                ps.setBinaryStream(1, fis, (int) arquivo.length());
+                ps.executeUpdate();
+                connection.commit();
+            } catch (SQLException ex)
+            {
+                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+                deuCerto = false;
+            } finally {
+                fechaConeccao(connection, stmt, data);
+            }
+        
+        return deuCerto;
     }
     
     //Create em tabela geral
@@ -139,6 +167,56 @@ public class Conexao{
         return lista;
     }
     
+    
+    public static InputStream select(String tabela, String condicional)
+    {
+        InputStream is = null;
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            data = stmt.executeQuery("SELECT imagem FROM " + tabela + 
+                                     " WHERE " + condicional);
+            while (data.next()) 
+            {
+                is = data.getBinaryStream(1);
+            }
+        
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+        
+        return is;
+    }
+    
+    /*
+    public static InputStream select(String tabela, String condicional) throws SQLException
+    {
+        Blob blob = null;
+        
+        try {
+            connection = abreConeccao();
+            stmt = connection.createStatement();
+            data = stmt.executeQuery("SELECT imagem FROM " + tabela + 
+                                     " WHERE " + condicional);     //resgata a saída do select
+
+            if(!data.next()) return null;   
+            
+            blob = data.getBlob(1);
+                    
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, stmt, data);
+        }
+        
+        if(blob != null)
+            return blob.getBinaryStream();
+        
+        return null;
+    }
+    */
     public static String[] select(String colunas, String tabela, String condicional) {
         String resultados[] = null;
         

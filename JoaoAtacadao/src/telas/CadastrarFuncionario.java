@@ -4,9 +4,23 @@
 package telas;
 
 import camadaDePersistencia.Conexao;
+import java.awt.Image;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import static java.lang.String.format;
+import java.sql.SQLException;
+import static java.text.MessageFormat.format;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import static joaoatacadao.BancoDeDados.escritor;
@@ -17,6 +31,7 @@ import static joaoatacadao.Validacao.validaData;
 
 public class CadastrarFuncionario extends javax.swing.JFrame {
 
+    File arquivo = null;
     public CadastrarFuncionario() {
         initComponents();
         pswSenhaGerente.setEditable(false);
@@ -45,6 +60,8 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         pswSenhaGerente = new javax.swing.JPasswordField();
         lblSalario = new javax.swing.JLabel();
         txtSalario = new javax.swing.JTextField();
+        btnCarregarImagem = new javax.swing.JButton();
+        lblImagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Cadastro de Funcionário");
@@ -111,6 +128,16 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
         lblSalario.setText("Salário:");
 
+        btnCarregarImagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/upload.png"))); // NOI18N
+        btnCarregarImagem.setText("Carregar Imagem");
+        btnCarregarImagem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCarregarImagemActionPerformed(evt);
+            }
+        });
+
+        lblImagem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
@@ -118,7 +145,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(59, 59, 59)
                 .addComponent(btnSalvar)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnCancelar)
                 .addGap(83, 83, 83))
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -133,8 +160,6 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                     .addComponent(lblSalario))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pswSenhaGerente, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
@@ -145,35 +170,45 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                             .addComponent(txtCpf, javax.swing.GroupLayout.Alignment.LEADING))
                         .addGap(18, 18, 18)
                         .addComponent(btnOk))
+                    .addComponent(pswSenhaGerente, javax.swing.GroupLayout.PREFERRED_SIZE, 153, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnCarregarImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblImagem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(19, 19, 19))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNome)
-                    .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblDataNascimento)
-                    .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblCpf)
-                    .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblSalario)
-                    .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 22, Short.MAX_VALUE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblNome)
+                            .addComponent(txtNome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblDataNascimento)
+                            .addComponent(txtDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblCpf)
+                            .addComponent(txtCpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblSalario)
+                            .addComponent(txtSalario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(lblImagem, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(lblFuncao, javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(rdbSim)
                         .addComponent(rdbNao)
-                        .addComponent(btnOk)))
+                        .addComponent(btnOk)
+                        .addComponent(btnCarregarImagem)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblSenhaGerente)
@@ -195,7 +230,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGap(0, 489, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -234,7 +269,9 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         String senha = new String(pswSenhaGerente.getPassword()).trim();
         String dataFormatada = validaData(txtDataNascimento.getText());
         
-        if((txtNome.getText().equals("") || txtDataNascimento.getText().equals("") || txtCpf.getText().equals("")) || rdbSim.isSelected() && senha.equals(""))
+        if((txtNome.getText().equals("") || txtDataNascimento.getText().equals("") || 
+            txtCpf.getText().equals("")) || rdbSim.isSelected() && senha.equals("") ||
+            arquivo == null)
             JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
 
         else if(!ehFlutuante(txtSalario.getText()))
@@ -260,24 +297,48 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                 temp += ", true, '" + senha + "'";
             else 
                 temp += ", false, null";
+               
             
-            if (Conexao.create("funcionario", temp)) {
-                JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                txtCpf.setText("");
-                txtNome.setText("");
-                txtDataNascimento.setText("");
-                txtSalario.setText("");
-                pswSenhaGerente.setText("");
+            temp += ", null";
+            
+            try {
+                if (Conexao.create("funcionario", temp) && Conexao.create(txtCpf.getText(), arquivo)) {
+                    JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+                    txtCpf.setText("");
+                    txtNome.setText("");
+                    txtDataNascimento.setText("");
+                    txtSalario.setText("");
+                    pswSenhaGerente.setText("");
+                    lblImagem.setText("");
+                }
+                
+                else
+                    JOptionPane.showMessageDialog(null, "Falha ao cadastrar funcionario", "Erro", JOptionPane.INFORMATION_MESSAGE);
+            } catch (IOException ex) {
+                Logger.getLogger(CadastrarFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (SQLException ex) {
+                Logger.getLogger(CadastrarFuncionario.class.getName()).log(Level.SEVERE, null, ex);
             }
-            
-            else
-                JOptionPane.showMessageDialog(null, "Falha ao cadastrar funcionario", "Erro", JOptionPane.INFORMATION_MESSAGE);            
         }
     }//GEN-LAST:event_btnSalvarActionPerformed
 
     private void txtNomeFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtNomeFocusGained
    
     }//GEN-LAST:event_txtNomeFocusGained
+
+    private void btnCarregarImagemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCarregarImagemActionPerformed
+        JFileChooser selecionador = new JFileChooser();
+        selecionador.showOpenDialog(null);
+        arquivo = selecionador.getSelectedFile();
+        if(arquivo != null)
+        {
+            ImageIcon imagem = new ImageIcon(arquivo.toString());
+            Image img = imagem.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
+            lblImagem.setIcon(new ImageIcon(img));
+        }
+        
+        
+    }//GEN-LAST:event_btnCarregarImagemActionPerformed
 
     /**
      * @param args the command line arguments
@@ -316,6 +377,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCarregarImagem;
     private javax.swing.ButtonGroup btnGrupoGerente;
     private javax.swing.JButton btnOk;
     private javax.swing.JButton btnSalvar;
@@ -323,6 +385,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
     private javax.swing.JLabel lblCpf;
     private javax.swing.JLabel lblDataNascimento;
     private javax.swing.JLabel lblFuncao;
+    private javax.swing.JLabel lblImagem;
     private javax.swing.JLabel lblNome;
     private javax.swing.JLabel lblSalario;
     private javax.swing.JLabel lblSenhaGerente;
