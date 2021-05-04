@@ -17,6 +17,7 @@ import static java.lang.String.format;
 import static java.lang.String.format;
 import java.sql.SQLException;
 import static java.text.MessageFormat.format;
+import static java.time.Clock.system;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
@@ -330,12 +331,22 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         JFileChooser selecionador = new JFileChooser();
         selecionador.showOpenDialog(null);
         arquivo = selecionador.getSelectedFile();
-        if(arquivo != null)
+        System.out.println(arquivo.getName());
+        String partes[] = arquivo.getName().split("\\.");;
+        
+        String extensao = partes[partes.length - 1].toLowerCase();
+        
+        if(arquivo != null && ((extensao.equals("png") || extensao.equals("jpeg"))))
         {
             ImageIcon imagem = new ImageIcon(arquivo.toString());
             Image img = imagem.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
             lblImagem.setIcon(new ImageIcon(img));
+        }else if(arquivo != null)
+        {
+            arquivo = null;
+            JOptionPane.showMessageDialog(null, "A imagem deve ser do formato png ou jpeg!", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
+            
         
         
     }//GEN-LAST:event_btnCarregarImagemActionPerformed
