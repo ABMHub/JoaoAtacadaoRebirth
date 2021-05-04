@@ -312,6 +312,8 @@ public class ListarProdutos extends javax.swing.JFrame {
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         String codigo = txtPesquisar.getText();
         String[] lista = null;
+        if (codigo.trim().equals(""))
+            return;
         lista = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
         
         ArrayList arraylist = new ArrayList<>();
