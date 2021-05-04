@@ -11,6 +11,16 @@ import camadaDePersistencia.Conexao;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -69,14 +79,27 @@ public class Caixa extends javax.swing.JFrame {
     private void requisitarFuncionario () {
         String cpf = JOptionPane.showInputDialog("Funcionário, insira seu CPF");
         String[] dados = null;
-        dados = Conexao.select("*", "funcionario", "cpf = '" + cpf + "'");
+        dados = Conexao.select("cpf, nome, data_de_nascimento, salario, gerente, "
+                + "senha", "funcionario", "cpf = '" + cpf + "'");
+        
+        
         
         if (dados == null) {
             JOptionPane.showMessageDialog(null, "Funcionario não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
             this.valido = false;
         }
         else {
-            funcionario = Funcionario.instanciarFuncionario(dados);
+            try {
+                InputStream is = Conexao.select("funcionario", "cpf = '" + dados[0] + "'");
+                
+                Image imagem = ImageIO.read(is);
+                Image imagemFinal = imagem.getScaledInstance(64, 64, Image.SCALE_SMOOTH);
+                jLabel2.setIcon(new ImageIcon(imagemFinal));
+                jLabel4.setText(dados[1]);            
+                funcionario = Funcionario.instanciarFuncionario(dados);
+            } catch (IOException ex) {
+                Logger.getLogger(Caixa.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
         
     }
@@ -93,6 +116,27 @@ public class Caixa extends javax.swing.JFrame {
         else {
             cliente = Cliente.instanciarCliente(dados);
         }
+    }
+    
+    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {
+        this.setVisible(false);
+    }
+
+    /*
+    Caso seja clicado em "Adicionar Produto", o objeto (item) instanciado no método pesquisar é adicionado 
+    a uma arraylist. Note que todos os produtos que estão sendo processados no caixa ficam salvos em memória.
+    */
+    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {
+        String qtd = txtQuantidade.getText();
+        item.setQuantidade((qtd.equals("") || Integer.parseInt(qtd) == 0) ? 1 : Integer.parseInt(qtd));
+        lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png")));
+
+        resetBtn();
+
+        carrinho.adicionaProduto(item);
+        criaTabela(carrinho.getProdutos());
+
+        lblTotal.setText(Float.toString(carrinho.getTotal()));
     }
 
     @SuppressWarnings("unchecked")
@@ -119,6 +163,9 @@ public class Caixa extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         lblTotal = new javax.swing.JLabel();
         lblItem = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
 
         jScrollPane2.setViewportView(jTextPane1);
 
@@ -234,6 +281,13 @@ public class Caixa extends javax.swing.JFrame {
         lblItem.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png"))); // NOI18N
 
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel3.setText("Operador:");
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+
         javax.swing.GroupLayout pnlCaixaLayout = new javax.swing.GroupLayout(pnlCaixa);
         pnlCaixa.setLayout(pnlCaixaLayout);
         pnlCaixaLayout.setHorizontalGroup(
@@ -258,14 +312,20 @@ public class Caixa extends javax.swing.JFrame {
                                 .addComponent(btnPesquisar)))))
                 .addGap(18, 18, 18)
                 .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 471, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 496, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(pnlCaixaLayout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(18, 18, 18)
-                        .addComponent(lblTotal, javax.swing.GroupLayout.PREFERRED_SIZE, 274, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                        .addComponent(lblTotal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(65, 65, 65))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCaixaLayout.createSequentialGroup()
                 .addGap(51, 51, 51)
                 .addComponent(btnDesconto)
@@ -282,15 +342,23 @@ public class Caixa extends javax.swing.JFrame {
         pnlCaixaLayout.setVerticalGroup(
             pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlCaixaLayout.createSequentialGroup()
-                .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlCaixaLayout.createSequentialGroup()
+                            .addGap(21, 21, 21)
+                            .addComponent(lblItem, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(pnlCaixaLayout.createSequentialGroup()
+                            .addContainerGap()
+                            .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel1)
+                                .addComponent(lblTotal)
+                                .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(lblPesquisar))))
                     .addGroup(pnlCaixaLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(lblTotal)
-                            .addComponent(txtPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblPesquisar)))
-                    .addComponent(lblItem, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlCaixaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlCaixaLayout.createSequentialGroup()
@@ -318,9 +386,7 @@ public class Caixa extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(pnlCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(pnlCaixa, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -331,6 +397,7 @@ public class Caixa extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
+
     /*
     Método que faz a pesquisa a partir do código de barras no banco de dados, note que, uma vez que o
     funcionário estaria vendo o código de barras, espera-se que o mesmo o digite corretamente, caso o 
@@ -338,7 +405,7 @@ public class Caixa extends javax.swing.JFrame {
     Note também que ela instancia em item (um objeto dessa classe) um objeto do tipo Produto que,
     eventualmente, poderá ou não ser adicionado na arraylist.
     */
-    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         String codigo = txtPesquisar.getText();
         String arquivo;
         String [] dados = null;
@@ -401,49 +468,32 @@ public class Caixa extends javax.swing.JFrame {
             btnAdicionar.setEnabled(true);
             btnCancelar.setEnabled(true);
             
-    }//GEN-LAST:event_btnPesquisarActionPerformed
+    }                                            
 
-    /*
-    Método repsonsável por criar a tabela que mostra o log de produtos
-    */
-    private void criaTabela(ArrayList<ItemPedido> produtos) {
-        DefaultTableModel modelo = new DefaultTableModel( new Object[] { "Código", "Preço", "Quantidade", "Subtotal" } , 0);
-        
-        for (int i = 0; i < produtos.size(); i++ ){
-            Produto prod = carrinho.getProdutos().get(i).getProduto();
-            Object linha[] = new Object[] {
-                prod.getCodigoDeBarras(),
-                prod.getValor(),
-                carrinho.getProdutos().get(i).getQuantidade(),
-                carrinho.getProdutos().get(i).getSubtotal()
-            };
-            
-            modelo.addRow(linha);
-        }
-        tblProdutos.setModel(modelo);
-    }
-    
+//GEN-FIRST:event_btnCancelarActionPerformed
+ 
+//GEN-LAST:event_btnCancelarActionPerformed
+
+
+/*
     private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {                                            
-        this.setVisible(false);
-    }                                           
-
-    /*
-    Caso seja clicado em "Adicionar Produto", o objeto (item) instanciado no método pesquisar é adicionado 
-    a uma arraylist. Note que todos os produtos que estão sendo processados no caixa ficam salvos em memória.
-    */
-    private void btnAdicionarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdicionarActionPerformed
-        String qtd = txtQuantidade.getText();
-        item.setQuantidade((qtd.equals("") || Integer.parseInt(qtd) == 0) ? 1 : Integer.parseInt(qtd));
-        lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png")));
-        
         resetBtn();
-        
-        carrinho.adicionaProduto(item);        
-        criaTabela(carrinho.getProdutos());
-        
-        lblTotal.setText(Float.toString(carrinho.getTotal()));
-    }//GEN-LAST:event_btnAdicionarActionPerformed
-                                          
+    }                                           
+*/
+    private void btnDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescontoActionPerformed
+        lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png")));
+        if (cliente.ehAniversario()){
+            carrinho.setAniversario(true);
+            carrinho.atualizaPrecos();
+            lblTotal.setText(Float.toString(carrinho.getTotal()));
+            JOptionPane.showMessageDialog(null, "Você conseguiu 10% de desconto de aniversariante!", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+
+        else {
+            JOptionPane.showMessageDialog(null, "Não existem descontos disponíveis no momento", "Aviso", JOptionPane.WARNING_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDescontoActionPerformed
+
     //Método responsável por fazer a exclusão de um item tanto da tabela quanto da arraylist de produtos
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed
         lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png")));
@@ -453,34 +503,35 @@ public class Caixa extends javax.swing.JFrame {
             return;
         }
         String[] dados = null;
+        
         dados = Conexao.select("*", "funcionario", "cpf = '" + cpf + "'");
         
         if (dados == null || dados[4].equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         Gerente gerente = Gerente.instanciaGerente(dados);
-        
+
         String senha = campoDeSenha("Gerente, insira sua senha!");
-        
+
         if (senha == null || !gerente.isSenha(senha)) {
             JOptionPane.showMessageDialog(null, "Senha incorreta!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
             return;
-        }        
-        
+        }
+
         if (tblProdutos.getSelectedRow() >= 0) {
-            carrinho.removeProduto(tblProdutos.getSelectedRow());            
+            carrinho.removeProduto(tblProdutos.getSelectedRow());
         }
         criaTabela(carrinho.getProdutos());
-        
+
         lblTotal.setText(Float.toString(carrinho.getTotal()));
     }//GEN-LAST:event_btnExcluirActionPerformed
 
-    
-    
-    
-    
+//GEN-FIRST:event_btnAdicionarActionPerformed
+ 
+//GEN-LAST:event_btnAdicionarActionPerformed
+
     /*
     Método responsável por lidar com o pagamento do cliente, tenha em vista que na loja só é possível
     pagar através do cartão fidelidade.
@@ -493,8 +544,8 @@ public class Caixa extends javax.swing.JFrame {
             total += carrinho.getProdutos().get(i).getSubtotal();
         }
         if (desconto)
-            total = (float) 0.90 * total;
-        
+        total = (float) 0.90 * total;
+
         if (cliente.pagar(senha, total)){
             ArrayList<String> arr = new ArrayList();
             arr.add(cliente.getCpf());
@@ -521,24 +572,93 @@ public class Caixa extends javax.swing.JFrame {
         //System.out.println(Conexao.procedure("cria_carrinho", arr));
     }//GEN-LAST:event_btnPagarActionPerformed
 
-/*
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
-        resetBtn();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    /*
+    Método que faz a pesquisa a partir do código de barras no banco de dados, note que, uma vez que o
+    funcionário estaria vendo o código de barras, espera-se que o mesmo o digite corretamente, caso o 
+    código não seja encontrado no banco de dados uma mensagem de erro é exibida.
+    Note também que ela instancia em item (um objeto dessa classe) um objeto do tipo Produto que,
+    eventualmente, poderá ou não ser adicionado na arraylist.
+    
+    private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
+        String codigo = txtPesquisar.getText();
+        String arquivo;
+        String [] dados = null;
+        ImageIcon img;
+
+        dados = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
+
+        if (dados == null) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        arquivo = dados[4].toLowerCase();
+        dados = Conexao.select("*", "view_" + dados[4], "codigo_de_barras = " + codigo);
+
+        switch(arquivo)
+        {
+            case "celular":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/celular1.png"));
+            break;
+
+            case "computador":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/computador1.png"));
+            break;
+
+            case "eletroeletronico":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/eletroeletronicos1.png"));
+            break;
+
+            case "filme":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/filme1.png"));
+            break;
+
+            case "periferico":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/periferico1.png"));
+            break;
+
+            case "vestuario":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/vestuario1.png"));
+            break;
+
+            case "livro":
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/livro1.png"));
+            break;
+
+            default:
+            img = new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png"));
+
+        }
+
+        lblItem.setIcon(img);
+        item = new ItemPedido(dados, arquivo);
+        txtQuantidade.setEditable(true);
+        txaDadosProduto.setText((item.getProduto()).toString());
+        btnAdicionar.setEnabled(true);
+        btnCancelar.setEnabled(true);
+
+    }//GEN-LAST:event_btnPesquisarActionPerformed
 */
-    private void btnDescontoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDescontoActionPerformed
-        lblItem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/carrinho1.png")));
-        if (cliente.ehAniversario()){
-            carrinho.setAniversario(true);
-            carrinho.atualizaPrecos();
-            lblTotal.setText(Float.toString(carrinho.getTotal()));
-            JOptionPane.showMessageDialog(null, "Você conseguiu 10% de desconto de aniversariante!", "Aviso", JOptionPane.WARNING_MESSAGE);
-        }
+    /*
+    Método repsonsável por criar a tabela que mostra o log de produtos
+    */
+    private void criaTabela(ArrayList<ItemPedido> produtos) {
+        DefaultTableModel modelo = new DefaultTableModel( new Object[] { "Código", "Preço", "Quantidade", "Subtotal" } , 0);
         
-        else {
-            JOptionPane.showMessageDialog(null, "Não existem descontos disponíveis no momento", "Aviso", JOptionPane.WARNING_MESSAGE);
+        for (int i = 0; i < produtos.size(); i++ ){
+            Produto prod = carrinho.getProdutos().get(i).getProduto();
+            Object linha[] = new Object[] {
+                prod.getCodigoDeBarras(),
+                prod.getValor(),
+                carrinho.getProdutos().get(i).getQuantidade(),
+                carrinho.getProdutos().get(i).getSubtotal()
+            };
+            
+            modelo.addRow(linha);
         }
-    }//GEN-LAST:event_btnDescontoActionPerformed
+        tblProdutos.setModel(modelo);
+    }
+    
 
     /**
      * @param args the command line arguments
@@ -586,6 +706,9 @@ public class Caixa extends javax.swing.JFrame {
     private javax.swing.JButton btnPagar;
     private javax.swing.JButton btnPesquisar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;

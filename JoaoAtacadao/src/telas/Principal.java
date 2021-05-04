@@ -6,6 +6,9 @@
 package telas;
 
 import camadaDePersistencia.Conexao;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -215,7 +218,8 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        Caixa caixa = new Caixa();
+        Caixa caixa = null;
+        caixa = new Caixa();
         if (caixa.valido)
             caixa.setVisible(true);
     }//GEN-LAST:event_jButton5ActionPerformed
