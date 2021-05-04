@@ -30,33 +30,24 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="lblPesquisaDeProdutos" max="32767" attributes="0"/>
-                          <Group type="102" alignment="0" attributes="0">
+                          <Group type="102" attributes="0">
                               <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="lblPesquisar1" alignment="0" min="-2" pref="304" max="-2" attributes="0"/>
-                                  <Component id="lblPesquisar" alignment="0" min="-2" pref="318" max="-2" attributes="0"/>
+                                  <Component id="lblPesquisar" min="-2" pref="286" max="-2" attributes="0"/>
+                                  <Component id="lblPesquisar1" min="-2" pref="286" max="-2" attributes="0"/>
                               </Group>
-                              <EmptySpace max="-2" attributes="0"/>
+                              <EmptySpace max="32767" attributes="0"/>
                               <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="txtNumeroDaCompra" pref="300" max="32767" attributes="0"/>
+                                  <Component id="txtNumeroDaCompra" pref="336" max="32767" attributes="0"/>
                                   <Component id="txtDataDaCompra" max="32767" attributes="0"/>
                               </Group>
-                              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
                   <Group type="102" attributes="0">
-                      <Group type="103" groupAlignment="0" attributes="0">
-                          <Group type="102" attributes="0">
-                              <EmptySpace min="-2" pref="268" max="-2" attributes="0"/>
-                              <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="216" max="-2" attributes="0"/>
-                              <Component id="btnEsquerda" min="-2" max="-2" attributes="0"/>
-                              <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
-                              <Component id="btnDireita" min="-2" max="-2" attributes="0"/>
-                          </Group>
-                      </Group>
+                      <EmptySpace min="-2" pref="216" max="-2" attributes="0"/>
+                      <Component id="btnEsquerda" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="116" max="-2" attributes="0"/>
+                      <Component id="btnDireita" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -64,8 +55,13 @@
           </Group>
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="jScrollPane1" min="-2" pref="622" max="-2" attributes="0"/>
+              <Component id="jScrollPane1" min="-2" pref="648" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace max="32767" attributes="0"/>
+              <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="282" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -90,7 +86,7 @@
                   </Group>
               </Group>
               <Component id="btnPesquisar" min="-2" max="-2" attributes="0"/>
-              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="183" max="-2" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
@@ -114,11 +110,11 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="0">
-                <Column editable="true" title="N&#xfa;mero da Compra" type="java.lang.Object"/>
-                <Column editable="true" title="C&#xf3;digo de Barras" type="java.lang.Object"/>
+                <Column editable="true" title="Num. Compra" type="java.lang.Object"/>
+                <Column editable="true" title="C&#xf3;digo" type="java.lang.Object"/>
                 <Column editable="true" title="Nome" type="java.lang.Object"/>
                 <Column editable="true" title="Valor da Unit&#xe1;rio" type="java.lang.Object"/>
-                <Column editable="true" title="Qtd. de Itens" type="java.lang.Object"/>
+                <Column editable="true" title="Qtd. Itens" type="java.lang.Object"/>
                 <Column editable="true" title="Data" type="java.lang.Object"/>
                 <Column editable="true" title="CPF" type="java.lang.Object"/>
               </Table>

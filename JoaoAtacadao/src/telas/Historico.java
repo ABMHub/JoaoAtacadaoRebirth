@@ -72,7 +72,7 @@ public class Historico extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Número da Compra", "Código de Barras", "Nome", "Valor da Unitário", "Qtd. de Itens", "Data", "CPF"
+                "Num. Compra", "Código", "Nome", "Valor da Unitário", "Qtd. Itens", "Data", "CPF"
             }
         ));
         jScrollPane1.setViewportView(tblHistorico);
@@ -131,29 +131,27 @@ public class Historico extends javax.swing.JFrame {
                             .addComponent(lblPesquisaDeProdutos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(lblPesquisar, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblPesquisar1, javax.swing.GroupLayout.PREFERRED_SIZE, 286, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(txtNumeroDaCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
-                                    .addComponent(txtDataDaCompra))
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                                    .addComponent(txtNumeroDaCompra, javax.swing.GroupLayout.DEFAULT_SIZE, 336, Short.MAX_VALUE)
+                                    .addComponent(txtDataDaCompra)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(268, 268, 268)
-                                .addComponent(btnPesquisar))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(216, 216, 216)
-                                .addComponent(btnEsquerda)
-                                .addGap(116, 116, 116)
-                                .addComponent(btnDireita)))
+                        .addGap(216, 216, 216)
+                        .addComponent(btnEsquerda)
+                        .addGap(116, 116, 116)
+                        .addComponent(btnDireita)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 622, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 648, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnPesquisar)
+                .addGap(282, 282, 282))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -230,7 +228,7 @@ public class Historico extends javax.swing.JFrame {
     }//GEN-LAST:event_btnDireitaActionPerformed
 
     private void criaTabela(ArrayList<String[]> historico) {
-        DefaultTableModel modelo = new DefaultTableModel( new Object[] { "Número da Compra", "Código de Barras", 
+        DefaultTableModel modelo = new DefaultTableModel( new Object[] { "Num. Compra", "Código", 
             "Nome", "Valor Unitário", "Qtd. Itens", "data", "CPF"} , 0);
         
         for (int i = 0; i < historico.size(); i++ ){
