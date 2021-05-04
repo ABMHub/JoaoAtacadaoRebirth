@@ -8,7 +8,9 @@
 package telas;
 
 import camadaDePersistencia.Conexao;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -342,6 +344,11 @@ public class Caixa extends javax.swing.JFrame {
         String [] dados = null;
         ImageIcon img;
         
+        if (codigo.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
         dados = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
         
         if (dados == null) {
@@ -446,7 +453,7 @@ public class Caixa extends javax.swing.JFrame {
             return;
         }
         String[] dados = null;
-        dados = Conexao.select("*", "funcionario", "cpf = " + cpf);
+        dados = Conexao.select("*", "funcionario", "cpf = '" + cpf + "'");
         
         if (dados == null || dados[4].equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
@@ -489,11 +496,29 @@ public class Caixa extends javax.swing.JFrame {
             total = (float) 0.90 * total;
         
         if (cliente.pagar(senha, total)){
+            ArrayList<String> arr = new ArrayList();
+            arr.add(cliente.getCpf());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            String data = sdf.format(new Date());
+            arr.add(data);
+            
+            String codCompra = Conexao.procedure("cria_carrinho", arr);
+            
+            for (int i = 0; i < carrinho.getProdutos().size(); i++) {
+                ItemPedido aux = carrinho.getProdutos().get(i);
+                Conexao.create("ItemPedido", "'" + aux.getProduto().getCodigoDeBarras() + "', " + codCompra + ", " + aux.getQuantidade());
+            }
+            
             resetBtn();
             carrinho.zerarCarrinho();
             criaTabela(carrinho.getProdutos());
             lblTotal.setText(Float.toString(carrinho.getTotal()));
         }
+        //ArrayList<String> arr = new ArrayList();
+        //arr.add("145.132.672-13");
+        //arr.add("2021-05-03");
+        
+        //System.out.println(Conexao.procedure("cria_carrinho", arr));
     }//GEN-LAST:event_btnPagarActionPerformed
 
 /*

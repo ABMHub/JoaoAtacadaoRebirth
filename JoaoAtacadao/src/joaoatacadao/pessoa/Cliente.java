@@ -1,5 +1,6 @@
 package joaoatacadao.pessoa;
 
+import camadaDePersistencia.Conexao;
 import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,21 +28,12 @@ public class Cliente extends Pessoa {
         
         if (senha.equals(this.getSenhaCartaoFidelidade())) {
             if (this.saldoEmConta >= total) {
-                this.saldoEmConta = (float) this.saldoEmConta - total; 
-                String dado = "CPF:" + this.cpf + ",\nNome:" + this.nome
-                    + ",\nData de Nascimento:" + this.dataNascimento + ",\nSenha:" + this.senhaCartaoFidelidade
-                    + ",\nSaldo:" + this.saldoEmConta + ";";
-               
-                try {
-                    BancoDeDados.editar("dados/cadastrarCliente.txt", this.cpf, dado);
-                    JOptionPane.showMessageDialog(null, "Saldo antigo: " + (this.saldoEmConta + total) +
-                            "\nValor cobrado: " + total + "\nValor atual: " +
-                            this.saldoEmConta, "Aviso", JOptionPane.WARNING_MESSAGE);
-                    
-                } catch (FileNotFoundException ex) {
-                    Logger.getLogger(Cliente.class.getName()).log(Level.SEVERE, null, ex);
-                }
-                           
+                this.saldoEmConta = (float) this.saldoEmConta - total;    
+                Conexao.update("cliente", "saldo = " + Double.toString(this.saldoEmConta), "cpf = '" + this.cpf + "'");
+                
+                JOptionPane.showMessageDialog(null, "Saldo antigo: " + (this.saldoEmConta + total) +
+                        "\nValor cobrado: " + total + "\nValor atual: " +
+                        this.saldoEmConta, "Aviso", JOptionPane.WARNING_MESSAGE);
             }
             else {
                 JOptionPane.showMessageDialog(null, "Você não tem saldo suficiente!", "Aviso", JOptionPane.WARNING_MESSAGE);

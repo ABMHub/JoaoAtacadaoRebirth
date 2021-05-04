@@ -1,5 +1,6 @@
 
 package camadaDePersistencia;
+import static java.lang.Integer.parseInt;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -9,6 +10,7 @@ import java.util.Arrays;
 public class Conexao{
     private static Connection connection;
     private static Statement stmt;
+    private static CallableStatement procStmt;
     private static ResultSet data;
     
     public static Connection abreConeccao() throws SQLException {
@@ -29,13 +31,27 @@ public class Conexao{
         return true;
     }
     
+    public static Boolean fechaConeccao(Connection coneccao, CallableStatement stmt, ResultSet resultados) {
+        try {
+            coneccao.close();
+            stmt.close();
+            if (resultados != null)
+                resultados.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+            return false;
+        }
+        
+        return true;
+    }
+    
     //Create em tabela geral
     public static boolean create(String tabela, String valores) {
         boolean deuCerto = true;
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            stmt.execute("INSERT INTO " + tabela + " VALUES ( " + valores + ")");
+            System.out.println(stmt.execute("INSERT INTO " + tabela + " VALUES ( " + valores + ")"));
         } catch (SQLException ex)
         {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
@@ -172,6 +188,7 @@ public class Conexao{
             connection = abreConeccao();
             stmt = connection.createStatement();
             
+            System.out.println(tabela + " " + dados + " " + chave);
             stmt.execute("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);            
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
@@ -208,5 +225,33 @@ public class Conexao{
             } 
         }
         else delete(tabela, chave);
+    }
+    
+    public static String procedure(String proc, ArrayList<String> parametros) {
+        String retorno = "";
+        try {
+            connection = abreConeccao();
+            String parString = "{call " + proc + "(";
+            for (int i = 0; i < parametros.size(); i++) {
+                parString += "?, ";
+            }
+            parString = parString.substring(0, parString.length() - 2) + ")}";
+            procStmt = connection.prepareCall(parString);
+            
+            for (int i = 0; i < parametros.size(); i++) {
+                procStmt.setString(i+1, parametros.get(i));
+            }
+            
+            procStmt.execute();
+            data = procStmt.getResultSet();
+            data.next();
+            retorno = data.getString("id");
+                      
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, procStmt, data);
+        }
+        return retorno;  
     }
 }
