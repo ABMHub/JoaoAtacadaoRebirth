@@ -50,7 +50,7 @@ public class Conexao{
         return true;
     }
 
-    public static boolean create(String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
+    public static boolean update(String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
     {
         boolean deuCerto = true;
         connection = abreConeccao();
@@ -79,7 +79,7 @@ public class Conexao{
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            System.out.println(stmt.execute("INSERT INTO " + tabela + " VALUES ( " + valores + ")"));
+            stmt.execute("INSERT INTO " + tabela + " VALUES ( " + valores + ")");
         } catch (SQLException ex)
         {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
@@ -266,7 +266,6 @@ public class Conexao{
             connection = abreConeccao();
             stmt = connection.createStatement();
             
-            System.out.println(tabela + " " + dados + " " + chave);
             stmt.execute("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);            
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);

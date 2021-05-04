@@ -24,7 +24,7 @@ public class Cliente extends Pessoa {
         if (senha == null)
             return false;
         
-        System.out.println(senha + " =? " + this.getSenhaCartaoFidelidade());
+        // System.out.println(senha + " =? " + this.getSenhaCartaoFidelidade());
         
         if (senha.equals(this.getSenhaCartaoFidelidade())) {
             if (this.saldoEmConta >= total) {

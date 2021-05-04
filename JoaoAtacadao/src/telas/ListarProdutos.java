@@ -330,7 +330,11 @@ public class ListarProdutos extends javax.swing.JFrame {
             return;
         }
         String[] dados = null;
-        dados = Conexao.select("*", "funcionario", "cpf = " + cpf);
+        if (cpf.trim().equals("")) {
+            JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        dados = Conexao.select("*", "funcionario", "cpf = '" + cpf + "'");
         
         if (dados == null || dados[4].equals("0")) {
             JOptionPane.showMessageDialog(null, "Informe um CPF de gerente válido!", "Erro de validação", JOptionPane.ERROR_MESSAGE);

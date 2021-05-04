@@ -303,7 +303,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             temp += ", null";
             
             try {
-                if (Conexao.create("funcionario", temp) && Conexao.create(txtCpf.getText(), arquivo)) {
+                if (Conexao.create("funcionario", temp) && Conexao.update(txtCpf.getText(), arquivo)) {
                     JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     txtCpf.setText("");
                     txtNome.setText("");
@@ -336,7 +336,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         
         String extensao = partes[partes.length - 1].toLowerCase();
         
-        if(arquivo != null && ((extensao.equals("png") || extensao.equals("jpeg"))))
+        if(arquivo != null && ((extensao.equals("png") || extensao.equals("jpeg") || extensao.equals("jpg"))))
         {
             ImageIcon imagem = new ImageIcon(arquivo.toString());
             Image img = imagem.getImage().getScaledInstance(128, 128, Image.SCALE_SMOOTH);
