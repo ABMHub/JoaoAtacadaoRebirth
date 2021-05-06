@@ -271,8 +271,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
         String dataFormatada = validaData(txtDataNascimento.getText());
         
         if((txtNome.getText().equals("") || txtDataNascimento.getText().equals("") || 
-            txtCpf.getText().equals("")) || rdbSim.isSelected() && senha.equals("") ||
-            arquivo == null)
+            txtCpf.getText().equals("")) || rdbSim.isSelected() && senha.equals(""))
             JOptionPane.showMessageDialog(null, "Todos os dados devem ser inseridos!!!", "Aviso", JOptionPane.WARNING_MESSAGE);
 
         else if(!ehFlutuante(txtSalario.getText()))
@@ -303,7 +302,11 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             temp += ", null";
             
             try {
-                if (Conexao.create("funcionario", temp) && Conexao.update(txtCpf.getText(), arquivo)) {
+                if (Conexao.create("funcionario", temp)) {
+                    
+                    if(arquivo != null)
+                        Conexao.update(txtCpf.getText(), arquivo);
+                    
                     JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     txtCpf.setText("");
                     txtNome.setText("");
@@ -311,6 +314,8 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                     txtSalario.setText("");
                     pswSenhaGerente.setText("");
                     lblImagem.setText("");
+                    
+                    
                 }
                 
                 else
