@@ -266,6 +266,7 @@ public class Conexao{
         }
     }
     
+    // Metodo para chamar uma procedure ('proc') com 'parametros' especificados
     public static String procedure(String proc, ArrayList<String> parametros) {
         String retorno = "";
         try {
@@ -294,6 +295,7 @@ public class Conexao{
         return retorno;  
     }
     
+    // Metodo para chamar a procedure 'GerarImagem' com 'cpf' como parametro
     public static InputStream procedure(String cpf) {
         InputStream is = null;
       
