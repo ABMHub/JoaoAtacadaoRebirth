@@ -6,17 +6,13 @@
 package telas;
 
 import camadaDePersistencia.Conexao;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.text.Normalizer;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
+import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
-import joaoatacadao.BancoDeDados;
 import joaoatacadao.pessoa.Gerente;
 
 /**
@@ -33,6 +29,8 @@ public class ListarProdutos extends javax.swing.JFrame {
         initComponents();
         carregaDepartamentos();
         setResizable(false); // maximize button disable
+        tblProdutos.setRowSelectionAllowed(true);
+        tblProdutos.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
     }
     
     private String campoDeSenha (String mensagem) {
@@ -355,7 +353,7 @@ public class ListarProdutos extends javax.swing.JFrame {
             return;
         if(produtos == null)
             return;
-        Conexao.delete(produtos.get(index)[4], produtos.get(index)[0], true);
+        Conexao.delete("produto", "codigo_de_barras = " + produtos.get(index)[0]);
         produtos = getDados();
         if (produtos != null)
             criaTabela(produtos);

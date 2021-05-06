@@ -6,28 +6,15 @@ package telas;
 import camadaDePersistencia.Conexao;
 import java.awt.Image;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
-import static java.lang.String.format;
 import java.sql.SQLException;
-import static java.text.MessageFormat.format;
-import static java.time.Clock.system;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import static joaoatacadao.BancoDeDados.escritor;
 import static joaoatacadao.Validacao.cpfValido;
 import static joaoatacadao.Validacao.ehFlutuante;
-import static joaoatacadao.Validacao.ehInteiro;
 import static joaoatacadao.Validacao.validaData;
 
 public class CadastrarFuncionario extends javax.swing.JFrame {

@@ -16,11 +16,13 @@ public class Conexao{
     private static CallableStatement procStmt;
     private static ResultSet data;
     
-    public static Connection abreConeccao() throws SQLException {
+    // Metodo para abrir a coneccao
+    private static Connection abreConeccao() throws SQLException {
         return DriverManager.getConnection(Endereco.url, Endereco.usuario, Endereco.senha); // Estabelece a conexão
     }
     
-    public static Boolean fechaConeccao(Connection coneccao, Statement stmt, ResultSet resultados) {
+    // Metodo para encerrar a coneccao
+    private static Boolean fechaConeccao(Connection coneccao, Statement stmt, ResultSet resultados) {
         try {
             coneccao.close();
             stmt.close();
@@ -34,7 +36,8 @@ public class Conexao{
         return true;
     }
     
-    public static Boolean fechaConeccao(Connection coneccao, CallableStatement stmt, ResultSet resultados) {
+    // Metodo para encerrar a coneccao
+    private static Boolean fechaConeccao(Connection coneccao, CallableStatement stmt, ResultSet resultados) {
         try {
             coneccao.close();
             stmt.close();
@@ -48,6 +51,7 @@ public class Conexao{
         return true;
     }
 
+    // Metodo para atualizar uma imagem ('arquivo') em uma determinada 'tabela' no banco, passando sua 'chave' primaria que servira como condicional.
     public static boolean update(String tabela, String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
     {
         boolean deuCerto = true;
@@ -71,7 +75,7 @@ public class Conexao{
         return deuCerto;
     }
     
-    //Create em tabela geral
+    // Metodo para inserir 'valores' em uma 'tabela' qualquer
     public static boolean create(String tabela, String valores) {
         boolean deuCerto = true;
         try {
@@ -88,7 +92,7 @@ public class Conexao{
         return deuCerto;
     }
     
-    //Create em tabela de produto
+    // Metodo para inserir registros de 'produto', assim como criar suas especializacoes, passando o nome da especializacao ('tabela'), e os valores para cada
     public static boolean create(String tabela, String valores_produto, String valores_especificos) {
         boolean deuCerto = true;
         try {
@@ -107,6 +111,7 @@ public class Conexao{
         return deuCerto;
     }
     
+    // Metodo para selecionar determinada 'pag'ina, delimitada para cada 10 registros, de uma 'tabela' especifica
     public static ArrayList<String[]> select(String tabela, int pag)
     {
         ArrayList<String[]> lista = new ArrayList();
@@ -144,6 +149,7 @@ public class Conexao{
         return lista;
     }
     
+    // Mesmo metodo anterior, mas com a possibilidade de se usar uma 'condicional'.
     public static ArrayList<String[]> select(String tabela, String condicional, int pag)
     {
         ArrayList<String[]> lista = new ArrayList();
@@ -181,7 +187,7 @@ public class Conexao{
         return lista;
     }
     
-    
+    // Metodo que seleciona determinada imagem de 'tabela' a partir de uma 'condicional'
     public static InputStream select(String tabela, String condicional)
     {
         InputStream is = null;
@@ -204,6 +210,7 @@ public class Conexao{
         return is;
     }
     
+    // Metodo para selecionar determinadas 'colunas' de uma 'tabela', a partir de uma condicional
     public static String[] select(String colunas, String tabela, String condicional) {
         String resultados[] = null;
         
@@ -232,12 +239,13 @@ public class Conexao{
         return resultados;
     }
     
-    public static void update(String tabela, String dados, String chave) {
+    // Metodo para atualizar determinado 'dado' de uma 'tabela', a partir de uma 'condicional'
+    public static void update(String tabela, String dados, String condicional) {
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
             
-            stmt.execute("UPDATE " + tabela + " SET " + dados + " WHERE " + chave);            
+            stmt.execute("UPDATE " + tabela + " SET " + dados + " WHERE " + condicional);            
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
@@ -245,34 +253,17 @@ public class Conexao{
         }
     }
     
-    // Funcao para deletar registro de determinada tabela
-    // 'Tabela' eh o nome da tabela, 'chave' eh 'nome da chave = valor da chave'
-    public static void delete(String tabela, String chave) {
+    // Metodo para deletar determinado registro de uma 'tabela', de acordo com dada 'condicional'
+    public static void delete(String tabela, String condicional) {
         try {
             connection = abreConeccao();
             stmt = connection.createStatement();
-            stmt.execute("DELETE FROM " + tabela + " WHERE " + chave);
+            stmt.execute("DELETE FROM " + tabela + " WHERE " + condicional);
         } catch (SQLException ex) {
             Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
         } finally {
             fechaConeccao(connection, stmt, data);
         }
-    }
-    
-    public static void delete(String tabela, String chave, Boolean produto) {
-        if (produto) {
-           try {
-                connection = abreConeccao();
-                stmt = connection.createStatement();
-                stmt.execute("DELETE FROM " + tabela + " WHERE " + tabela + ".codigo_de_barras = " + chave);
-                stmt.execute("DELETE FROM produto WHERE codigo_de_barras = " + chave);
-            } catch (SQLException ex) {
-                Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-            } finally {
-                fechaConeccao(connection, stmt, data);
-            } 
-        }
-        else delete(tabela, chave);
     }
     
     public static String procedure(String proc, ArrayList<String> parametros) {

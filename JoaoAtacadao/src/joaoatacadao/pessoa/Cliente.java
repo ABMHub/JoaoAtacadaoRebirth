@@ -1,13 +1,9 @@
 package joaoatacadao.pessoa;
 
 import camadaDePersistencia.Conexao;
-import java.io.FileNotFoundException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import joaoatacadao.BancoDeDados;
 
 public class Cliente extends Pessoa {
     private double saldoEmConta;
@@ -50,13 +46,13 @@ public class Cliente extends Pessoa {
     }
 
     public boolean ehAniversario (){
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         String data = sdf.format(new Date());
 
-        this.dataNascimento = this.dataNascimento.substring(0, 5);
-        data = data.substring(0, 5);
-
-        if(data.equals(this.dataNascimento))
+        String datanac = this.dataNascimento.substring(5, 10);
+        data = data.substring(5, 10);
+        
+        if(data.equals(datanac))
             return true;
         
         return false;
