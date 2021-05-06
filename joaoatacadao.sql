@@ -1,3 +1,4 @@
+drop database joaoatacadao;
 CREATE DATABASE JoaoAtacadao; 
 USE JoaoAtacadao;
 
@@ -17,7 +18,7 @@ CREATE TABLE IF NOT EXISTS Vestuario
     cor			     	VARCHAR(50) NOT NULL,
     material			VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Eletroeletronico
@@ -27,7 +28,7 @@ CREATE TABLE IF NOT EXISTS Eletroeletronico
     potencia	     	VARCHAR(50) NOT NULL,
     smart				BOOLEAN NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Computador
@@ -42,7 +43,7 @@ CREATE TABLE IF NOT EXISTS Computador
     cor					VARCHAR(50) NOT NULL,
     modelo				VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Celular
@@ -56,7 +57,7 @@ CREATE TABLE IF NOT EXISTS Celular
     cor					VARCHAR(50) NOT NULL,
     modelo				VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Periferico
@@ -68,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Periferico
     cor					VARCHAR(50) NOT NULL,
     modelo				VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Filme
@@ -80,7 +81,7 @@ CREATE TABLE IF NOT EXISTS Filme
     faixa_etaria		VARCHAR(50) NOT NULL,
     tema				VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 
@@ -95,7 +96,7 @@ CREATE TABLE IF NOT EXISTS livro
 	faixa_etaria		VARCHAR(50) NOT NULL,
     tema				VARCHAR(50) NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras)
+    FOREIGN KEY(codigo_de_barras) REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS Cliente
@@ -127,8 +128,8 @@ CREATE TABLE IF NOT EXISTS Carrinho
     data_de_compra        DATE NOT NULL,
     cpf_do_funcionario  VARCHAR(50) NOT NULL, 
     
-    FOREIGN KEY(cpf_do_cliente) REFERENCES Cliente(cpf),
-    FOREIGN KEY(cpf_do_funcionario) REFERENCES Funcionario(cpf)
+    FOREIGN KEY(cpf_do_cliente) REFERENCES Cliente(cpf) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(cpf_do_funcionario) REFERENCES Funcionario(cpf) ON UPDATE CASCADE ON DELETE CASCADE
     
 );
 
@@ -138,8 +139,8 @@ CREATE TABLE IF NOT EXISTS ItemPedido
     numero_da_compra     INT NOT NULL,
     qtd_de_itens        INT NOT NULL,
     
-    FOREIGN KEY(codigo_de_barras)   REFERENCES Produto(codigo_de_barras),
-    FOREIGN KEY(numero_da_compra)   REFERENCES Carrinho(numero_da_compra),
+    FOREIGN KEY(codigo_de_barras)   REFERENCES Produto(codigo_de_barras) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY(numero_da_compra)   REFERENCES Carrinho(numero_da_compra) ON UPDATE CASCADE ON DELETE CASCADE,
     
     PRIMARY KEY(codigo_de_barras, numero_da_compra)
 );
