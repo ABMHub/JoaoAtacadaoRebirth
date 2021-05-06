@@ -1,6 +1,5 @@
 
 package camadaDePersistencia;
-import static java.lang.Integer.parseInt;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -10,7 +9,6 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import java.util.Arrays;
 
 public class Conexao{
     private static Connection connection;
@@ -206,33 +204,6 @@ public class Conexao{
         return is;
     }
     
-    /*
-    public static InputStream select(String tabela, String condicional) throws SQLException
-    {
-        Blob blob = null;
-        
-        try {
-            connection = abreConeccao();
-            stmt = connection.createStatement();
-            data = stmt.executeQuery("SELECT imagem FROM " + tabela + 
-                                     " WHERE " + condicional);     //resgata a saída do select
-
-            if(!data.next()) return null;   
-            
-            blob = data.getBlob(1);
-                    
-        } catch (SQLException ex) {
-            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            fechaConeccao(connection, stmt, data);
-        }
-        
-        if(blob != null)
-            return blob.getBinaryStream();
-        
-        return null;
-    }
-    */
     public static String[] select(String colunas, String tabela, String condicional) {
         String resultados[] = null;
         
