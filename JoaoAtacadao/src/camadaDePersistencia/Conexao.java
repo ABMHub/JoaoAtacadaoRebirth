@@ -97,7 +97,7 @@ public class Conexao{
             connection = abreConeccao();
             stmt = connection.createStatement();
             stmt.execute("INSERT INTO Produto VALUES (" + valores_produto + ")");
-            stmt.execute("INSERT INTO " + tabela + " VALUES (0, " + valores_especificos + ")");
+            stmt.execute("INSERT INTO " + tabela + " VALUES (" + valores_especificos + ")");
         } catch (SQLException ex)
         {
             //System.out.println("Entrada duplicada!");

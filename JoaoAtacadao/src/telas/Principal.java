@@ -263,17 +263,17 @@ public class Principal extends javax.swing.JFrame {
         Conexao.create("livro", "'20', 'Senhor dos Aneis', 40, 'IMFE', 'livro'", "'20', 'tolkien', 310, 'IMFE', '416561', '12', 'aventura'");
         Conexao.create("livro", "'21', 'Duna', 50, 'Editora', 'livro'", "'21', 'frank herbert', 680, 'Editora', '3315517', '14', 'scifi'");
         
-        Conexao.create("funcionario", "'062.942.051-31', 'Lucas ADM', '2000-10-02', 7000, true, '3591'");
-        Conexao.create("funcionario", "'415.941.131-13', 'Joao Pedro', '2001-05-02', 3000, false, null");
-        Conexao.create("funcionario", "'516.521.331-22', 'Joao Victor', '2000-11-13', 3000, false, null");
+        Conexao.create("funcionario", "'062.942.051-31', 'Lucas ADM', '2000-10-02', 7000, true, '3591', null");
+        Conexao.create("funcionario", "'415.941.131-13', 'Joao Pedro', '2001-05-02', 3000, false, null, null");
+        Conexao.create("funcionario", "'516.521.331-22', 'Joao Victor', '2000-11-13', 3000, false, null, null");
         
         Conexao.create("cliente", "'145.132.672-13', 'Joao Bernardo', '1973-10-11', 200, '123'");
         Conexao.create("cliente", "'613.754.356-11', 'Joao Lucas', '2013-10-11', 1000, '123'");
         Conexao.create("cliente", "'854.469.345-77', 'Joao MaranhÃ£o', '2001-09-01', 2200, '123'");
         
-        Conexao.create("Carrinho", "0, '145.132.672-13', '2020/01/01'");
-        Conexao.create("Carrinho", "0, '613.754.356-11', '2020/02/02'");
-        Conexao.create("Carrinho", "0, '854.469.345-77', '2020/03/03'");
+        Conexao.create("Carrinho", "0, '145.132.672-13', '2020/01/01', '062.942.051-31'");
+        Conexao.create("Carrinho", "0, '613.754.356-11', '2020/02/02', '415.941.131-13'");
+        Conexao.create("Carrinho", "0, '854.469.345-77', '2020/03/03', '062.942.051-31'");
 
         //pedidos da compra 1
         Conexao.create("ItemPedido", "'1', 1, 1");

@@ -552,6 +552,7 @@ public class Caixa extends javax.swing.JFrame {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
             String data = sdf.format(new Date());
             arr.add(data);
+            arr.add(funcionario.getCpf());
             
             String codCompra = Conexao.procedure("cria_carrinho", arr);
             
