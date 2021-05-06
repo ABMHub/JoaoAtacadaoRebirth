@@ -1,2 +1,3 @@
-# João Atacadão
-Trabalho final de Técnicas de Programação 1, 2020/1 UnB
+# João Atacadão Rebirth
+
+Trabalho final de Banco de Dados noturno, 2020/2 - UnB

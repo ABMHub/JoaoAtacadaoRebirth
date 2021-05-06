@@ -305,7 +305,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                 if (Conexao.create("funcionario", temp)) {
                     
                     if(arquivo != null)
-                        Conexao.update(txtCpf.getText(), arquivo);
+                        Conexao.update("funcionario", "cpf = '" + txtCpf.getText() + "'", arquivo);
                     
                     JOptionPane.showMessageDialog(null, "Funcionário cadastrado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
                     txtCpf.setText("");

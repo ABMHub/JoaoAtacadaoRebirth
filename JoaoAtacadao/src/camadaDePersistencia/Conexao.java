@@ -48,14 +48,14 @@ public class Conexao{
         return true;
     }
 
-    public static boolean update(String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
+    public static boolean update(String tabela, String chave, File arquivo) throws FileNotFoundException, IOException, SQLException
     {
         boolean deuCerto = true;
         connection = abreConeccao();
         connection.setAutoCommit(false);
         
         try (FileInputStream fis = new FileInputStream(arquivo);
-            PreparedStatement ps = connection.prepareStatement("UPDATE ImagensPadrao SET imagem = (?) WHERE id = \"" + chave + "\";")) 
+            PreparedStatement ps = connection.prepareStatement("UPDATE " + tabela + " SET imagem = (?) WHERE " + chave + ";")) 
             {
                 ps.setBinaryStream(1, fis, (int) arquivo.length());
                 ps.executeUpdate();

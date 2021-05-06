@@ -251,31 +251,31 @@ public class Principal extends javax.swing.JFrame {
             File arquivo = selecionador.getSelectedFile();
             
             String a = "/imagens/func1.png";
-            Conexao.update("1", arquivo);
+            Conexao.update("ImagensPadrao", "id = 1", arquivo);
             
             selecionador = new JFileChooser();
             selecionador.showOpenDialog(null);
             arquivo = selecionador.getSelectedFile();
             
-            Conexao.update("2", arquivo);
+            Conexao.update("ImagensPadrao", "id = 2", arquivo);
             
             selecionador = new JFileChooser();
             selecionador.showOpenDialog(null);
             arquivo = selecionador.getSelectedFile();
             
-            Conexao.update("3", arquivo);
+            Conexao.update("ImagensPadrao", "id = 3", arquivo);
             
             selecionador = new JFileChooser();
             selecionador.showOpenDialog(null);
             arquivo = selecionador.getSelectedFile();
             
-            Conexao.update("4", arquivo);
+            Conexao.update("ImagensPadrao", "id = 4", arquivo);
             
             selecionador = new JFileChooser();
             selecionador.showOpenDialog(null);
             arquivo = selecionador.getSelectedFile();
             
-            Conexao.update("5", arquivo);
+            Conexao.update("ImagensPadrao", "id = 5", arquivo);
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
