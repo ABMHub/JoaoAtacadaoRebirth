@@ -13,6 +13,7 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 
 /**
  *
@@ -238,11 +239,43 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton7ActionPerformed
 
     private void teste() {
-        String a = "/img.png";
-        File file = new File(a);
-        Conexao.create("ImagensPadrao", "0");
+        
+        Conexao.create("ImagensPadrao", "0, null");
+        Conexao.create("ImagensPadrao", "0, null");
+        Conexao.create("ImagensPadrao", "0, null");
+        Conexao.create("ImagensPadrao", "0, null");
+        Conexao.create("ImagensPadrao", "0, null");
         try {
-            Conexao.update("1", file);
+            JFileChooser selecionador = new JFileChooser();
+            selecionador.showOpenDialog(null);
+            File arquivo = selecionador.getSelectedFile();
+            
+            String a = "/imagens/func1.png";
+            Conexao.update("1", arquivo);
+            
+            selecionador = new JFileChooser();
+            selecionador.showOpenDialog(null);
+            arquivo = selecionador.getSelectedFile();
+            
+            Conexao.update("2", arquivo);
+            
+            selecionador = new JFileChooser();
+            selecionador.showOpenDialog(null);
+            arquivo = selecionador.getSelectedFile();
+            
+            Conexao.update("3", arquivo);
+            
+            selecionador = new JFileChooser();
+            selecionador.showOpenDialog(null);
+            arquivo = selecionador.getSelectedFile();
+            
+            Conexao.update("4", arquivo);
+            
+            selecionador = new JFileChooser();
+            selecionador.showOpenDialog(null);
+            arquivo = selecionador.getSelectedFile();
+            
+            Conexao.update("5", arquivo);
         } catch (IOException ex) {
             Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {

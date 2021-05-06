@@ -90,7 +90,7 @@ public class Caixa extends javax.swing.JFrame {
         }
         else {
             try {
-                InputStream is = Conexao.select("funcionario", "cpf = '" + dados[0] + "'");
+                InputStream is = Conexao.procedure(dados[0]);
                 
                 Image imagem = ImageIO.read(is);
                 Image imagemFinal = imagem.getScaledInstance(64, 64, Image.SCALE_SMOOTH);

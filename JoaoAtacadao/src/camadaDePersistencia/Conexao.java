@@ -55,7 +55,7 @@ public class Conexao{
         connection.setAutoCommit(false);
         
         try (FileInputStream fis = new FileInputStream(arquivo);
-            PreparedStatement ps = connection.prepareStatement("UPDATE funcionario SET imagem = (?) WHERE cpf = \"" + chave + "\";")) 
+            PreparedStatement ps = connection.prepareStatement("UPDATE ImagensPadrao SET imagem = (?) WHERE id = \"" + chave + "\";")) 
             {
                 ps.setBinaryStream(1, fis, (int) arquivo.length());
                 ps.executeUpdate();
@@ -301,5 +301,31 @@ public class Conexao{
             fechaConeccao(connection, procStmt, data);
         }
         return retorno;  
+    }
+    
+    public static InputStream procedure(String cpf) {
+        InputStream is = null;
+      
+        try {
+            connection = abreConeccao();
+            String parString = "{call GerarImagem(?)}";
+            procStmt = connection.prepareCall(parString);            
+
+            procStmt.setString(1, cpf);
+
+            
+            procStmt.execute();
+            data = procStmt.getResultSet();
+            while (data.next()) 
+            {
+                is = data.getBinaryStream(1);
+            }
+                      
+        } catch (SQLException ex) {
+            Logger.getLogger(Conexao.class.getName()).log(Level.SEVERE, null, ex);
+        } finally {
+            fechaConeccao(connection, procStmt, data);
+        }
+        return is;  
     }
 }
