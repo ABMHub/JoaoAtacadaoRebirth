@@ -5,8 +5,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import camadaDePersistencia.Conexao;
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import javax.swing.ImageIcon;
 import telas.Principal;
 
 public class JoaoAtacadao {    
@@ -28,5 +30,5 @@ public class JoaoAtacadao {
         //ArrayList<String[]> lista = Conexao.select("funcionario", 0);
         new Principal().setVisible(true);
     }
-    
+        
 }

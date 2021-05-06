@@ -6,9 +6,13 @@
 package telas;
 
 import camadaDePersistencia.Conexao;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 
 /**
  *
@@ -233,8 +237,22 @@ public class Principal extends javax.swing.JFrame {
         new Historico().setVisible(true);
     }//GEN-LAST:event_jButton7ActionPerformed
 
+    private void teste() {
+        String a = "/img.png";
+        File file = new File(a);
+        Conexao.create("ImagensPadrao", "0");
+        try {
+            Conexao.update("1", file);
+        } catch (IOException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (SQLException ex) {
+            Logger.getLogger(Principal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
     private void botaoMagicoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoMagicoActionPerformed
         System.out.println("Preenchendo banco de dados...");
+        teste();
         Conexao.create("eletroeletronico", "'1', 'Geladeira', 1000, 'eletrolux', 'eletroeletronico'", "'1', '1000', '500', true");
         Conexao.create("eletroeletronico", "'2', 'Microondas', 500, 'panasonic', 'eletroeletronico'", "'2', '2000', '300', false");
         Conexao.create("eletroeletronico", "'3', 'Cafeteira', 200, 'tres coracoes', 'eletroeletronico'", "'3', '100', '900', true");
