@@ -483,6 +483,7 @@ public class Caixa extends javax.swing.JFrame {
             carrinho.atualizaPrecos();
             lblTotal.setText(Float.toString(carrinho.getTotal()));
             JOptionPane.showMessageDialog(null, "Você conseguiu 10% de desconto de aniversariante!", "Aviso", JOptionPane.WARNING_MESSAGE);
+            desconto = true;
         }
 
         else {
@@ -540,7 +541,7 @@ public class Caixa extends javax.swing.JFrame {
             total += carrinho.getProdutos().get(i).getSubtotal();
         }
         if (desconto)
-        total = (float) 0.90 * total;
+            total = (float) 0.90 * total;
 
         if (cliente.pagar(senha, total)){
             ArrayList<String> arr = new ArrayList();

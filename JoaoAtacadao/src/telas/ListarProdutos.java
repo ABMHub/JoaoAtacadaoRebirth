@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.ListSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import joaoatacadao.Validacao;
 import joaoatacadao.pessoa.Gerente;
 
 /**
@@ -309,16 +310,26 @@ public class ListarProdutos extends javax.swing.JFrame {
 
     private void btnPesquisarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPesquisarActionPerformed
         String codigo = txtPesquisar.getText();
+        txtPesquisar.setText("");
+        if(!Validacao.ehInteiro(codigo))
+        {
+             JOptionPane.showMessageDialog(null, "Código Inválido!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+             return;
+        }
+        
         String[] lista = null;
         if (codigo.trim().equals(""))
             return;
-        lista = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);
+        lista = Conexao.select("*", "produto", "codigo_de_barras = " + codigo);   
         
         ArrayList arraylist = new ArrayList<>();
         arraylist.add(lista);
         produtos = arraylist;
         if (lista != null)
-            criaTabela(arraylist); 
+            criaTabela(arraylist);
+        else
+             JOptionPane.showMessageDialog(null, "Produto não encontrado!", "Falha na Busca", JOptionPane.ERROR_MESSAGE);
+            
     }//GEN-LAST:event_btnPesquisarActionPerformed
 
     private void btnExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExcluirActionPerformed

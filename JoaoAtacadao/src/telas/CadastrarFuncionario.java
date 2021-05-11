@@ -280,11 +280,12 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
             temp += ", '" + dataFormatada + "'";
             temp += ", " + txtSalario.getText();
             
+            
+            
             if(rdbSim.isSelected())
                 temp += ", true, '" + senha + "'";
             else 
                 temp += ", false, null";
-               
             
             temp += ", null";
             
@@ -302,7 +303,7 @@ public class CadastrarFuncionario extends javax.swing.JFrame {
                     pswSenhaGerente.setText("");
                     lblImagem.setText("");
                     
-                    
+                    lblImagem.setIcon(null);
                 }
                 
                 else
